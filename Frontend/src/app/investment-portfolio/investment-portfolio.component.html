@@ -23,6 +23,11 @@
     *ngIf="portfolioData.length > 0"
     class="table-responsive mt-4 custom-table"
   >
+  <div class="text-center mt-4">
+    <h4 style="color: green;">Total Profit: {{ totalProfit | number:'1.2-2' }}</h4>
+    <h4 style="color: red">Total Loss: {{ totalLoss | number:'1.2-2' }}</h4>
+  </div>
+</div>
     <table class="table table-bordered table-hover table-striped">
       <thead class="table-dark text-center">
         <tr>
@@ -40,34 +45,28 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let data of portfolioData"
+          *ngFor="let data of portfolioData || portfolioData"  
           class="text-center"
-          [ngClass]="{ 'highlight-row': data.Stockname === 'Stock name' }"
+          [ngClass]="{ 'highlight-row': data.Stockname || data.stockname === 'Stock name' }"
         >
-          <td>{{ data.Stockname }}</td>
-          <td>{{ data.ISIN }}</td>
-          <td>{{ data.Quantity }}</td>
-          <td>{{ data.Buyprice }}</td>
-          <td>{{ data.Buyvalue }}</td>
-          <td>{{ data.Sellprice }}</td>
-          <td>{{ data.Sellvalue }}</td>
+          <td>{{ data.Stockname || data.stockname}}</td>
+          <td>{{ data.ISIN || data.isin}}</td>
+          <td>{{ data.Quantity || data.quantity}}</td>
+          <td>{{ data.Buyprice || data.buyprice}}</td>
+          <td>{{ data.Buyvalue || data.buyvalue}}</td>
+          <td>{{ data.Sellprice || data.sellprice}}</td>
+          <td>{{ data.Sellvalue || data.sellvalue}}</td>
           <td
             [ngClass]="{
-              'text-success': data.RealisedPL >= 0,
-              'text-danger': data.RealisedPL < 0
+              'text-success': data.RealisedPL >= 0 || data.realisedPL >=0,
+              'text-danger': data.RealisedPL < 0 || data.realisedPL <0
             }"
           >
-            {{ data.RealisedPL }}
+            {{ data.RealisedPL || data.realisedPL}}
           </td>
-          <td>{{ data.Buydate }}</td>
-          <td>{{ data.Selldate }}</td>
+          <td>{{ data.Buydate || data.buydate}}</td>
+          <td>{{ data.Selldate || data.selldate}}</td>
         </tr>
       </tbody>
     </table>
-
-    <div class="text-center mt-4">
-      <h4 style="color: green;">Total Profit: {{ totalProfit | number:'1.2-2' }}</h4>
-      <h4 style="color: red">Total Loss: {{ totalLoss | number:'1.2-2' }}</h4>
-    </div>
-  </div>
 </div>

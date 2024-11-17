@@ -18,7 +18,7 @@ export class InvestmentPortfolioComponent {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    // this.getInvestmentData();
+    this.getInvestmentData();
   }
 
   // Handle file selection event
@@ -47,10 +47,6 @@ export class InvestmentPortfolioComponent {
             this.isFileUploaded = true;
             const values = res.map((item) => item.RealisedPL);
 
-            // Initialize sums for negative and positive values
-            let positiveSum = 0;
-            let negativeSum = 0;
-
             // Iterate through the data, filtering out non-numeric values
             values.forEach((item) => {
               const numValue = parseFloat(item);
@@ -58,15 +54,13 @@ export class InvestmentPortfolioComponent {
               // Check if the value is a number and not the string 'Unrealised P&L'
               if (!isNaN(numValue)) {
                 if (numValue >= 0) {
-                  this.totalProfit += numValue; // Add to positive sum
+                  this.totalProfit += numValue; 
                 } else {
-                  this.totalLoss += numValue; // Add to negative sum
+                  this.totalLoss += numValue; 
                 }
               }
             });
 
-            console.log('Total Positive Values:', this.totalProfit);
-            console.log('Total Negative Values:', this.totalProfit);
           },
           (error) => {
             console.error('Error:', error);
@@ -75,15 +69,30 @@ export class InvestmentPortfolioComponent {
     }
   }
 
-  // getInvestmentData() {
-  //     this.http.get<any[]>('https://localhost:44394/api/Excel/InvestmentData').subscribe(
-  //       res => {
-  //         console.log("Response data:", res);
-  //         this.portfolioData = res; // Ensure that the response is an array
-  //       },
-  //       error => {
-  //         console.error("Error:", error);
-  //       }
-  //     );
-  // }
+  getInvestmentData() {
+      this.http.get<any[]>('https://localhost:44394/api/Excel/InvestmentData').subscribe(
+        res => {
+          console.log("Response data:", res);
+          this.portfolioData = res; // Ensure that the response is an array
+          const values = res.map((item) => item.realisedPL);
+
+            // Iterate through the data, filtering out non-numeric values
+            values.forEach((item) => {
+              const numValue = parseFloat(item);
+
+              // Check if the value is a number and not the string 'Unrealised P&L'
+              if (!isNaN(numValue)) {
+                if (numValue >= 0) {
+                  this.totalProfit += numValue; 
+                } else {
+                  this.totalLoss += numValue; 
+                }
+              }
+            });
+        },
+        error => {
+          console.error("Error:", error);
+        }
+      );
+  }
 }
