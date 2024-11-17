@@ -18,60 +18,6 @@ public class ExcelController : ControllerBase
         return "Test";
     }
 
-/*    #region upload
-    [HttpPost("upload")]
-    public async Task<IActionResult> UploadExcel(IFormFile file)
-    {
-        if(file == null || file.Length == 0)
-            return BadRequest("No file uploaded.");
-
-        var stockDataList = new List<StockData>();
-
-        try
-        {
-            using(var stream = new MemoryStream())
-            {
-                await file.CopyToAsync(stream);
-
-                using(var package = new ExcelPackage(stream))
-                {
-                    var worksheet = package.Workbook.Worksheets[2]; // Read the first worksheet
-                    if(worksheet == null) return BadRequest("No worksheet found.");
-
-                    for(int row = 2; row <= worksheet.Dimension.End.Row; row++) // Assuming first row is headers
-                    {
-                        // Use TryParse for safe parsing of numeric values
-                        var stockData = new StockData
-                        {
-                            StockName = worksheet.Cells[row, 1].Text,
-                            ISIN = worksheet.Cells[row, 2].Text,
-                            Quantity = int.TryParse(worksheet.Cells[row, 3].Text, out var quantity) ? quantity : 0, // Default to 0 if parsing fails
-                            AvgBuyPrice = decimal.TryParse(worksheet.Cells[row, 4].Text, out var avgBuyPrice) ? avgBuyPrice : 0m,
-                            BuyValue = decimal.TryParse(worksheet.Cells[row, 5].Text, out var buyValue) ? buyValue : 0m,
-                            AvgSellPrice = decimal.TryParse(worksheet.Cells[row, 6].Text, out var avgSellPrice) ? avgSellPrice : 0m,
-                            SellValue = decimal.TryParse(worksheet.Cells[row, 7].Text, out var sellValue) ? sellValue : 0m,
-                            RealisedPnL = decimal.TryParse(worksheet.Cells[row, 8].Text, out var realisedPnL) ? realisedPnL : 0m,
-                            RealisedPnLPercentage = worksheet.Cells[row, 9].Text,
-                            BuyDate = worksheet.Cells[row, 10].Text,
-                            SellDate = worksheet.Cells[row, 11].Text
-                        };
-                        stockDataList.Add(stockData);
-                    }
-                }
-            }
-
-            // Save the data to JSON file
-            await SaveToJsonFileAsync(stockDataList);
-
-            return Ok(stockDataList);
-        }
-        catch(Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-    } 
-    #endregion*/
-
 
     #region InvestmentData
     [HttpGet("InvestmentData")]
@@ -160,7 +106,7 @@ public class ExcelController : ControllerBase
                         }
 
                         // Add the stock data only if it contains at least one valid entry
-                        if(stockData.Count > 0 )
+                        if(stockData.Count > 0)
                         {
                             stockDataList.Add(stockData);
                         }
@@ -210,6 +156,63 @@ public class ExcelController : ControllerBase
         }
     }
     #endregion
+
+    #region upload
+    /*    [HttpPost("upload")]
+    public async Task<IActionResult> UploadExcel(IFormFile file)
+    {
+        if(file == null || file.Length == 0)
+            return BadRequest("No file uploaded.");
+
+        var stockDataList = new List<StockData>();
+
+        try
+        {
+            using(var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+
+                using(var package = new ExcelPackage(stream))
+                {
+                    var worksheet = package.Workbook.Worksheets[2]; // Read the first worksheet
+                    if(worksheet == null) return BadRequest("No worksheet found.");
+
+                    for(int row = 2; row <= worksheet.Dimension.End.Row; row++) // Assuming first row is headers
+                    {
+                        // Use TryParse for safe parsing of numeric values
+                        var stockData = new StockData
+                        {
+                            StockName = worksheet.Cells[row, 1].Text,
+                            ISIN = worksheet.Cells[row, 2].Text,
+                            Quantity = int.TryParse(worksheet.Cells[row, 3].Text, out var quantity) ? quantity : 0, // Default to 0 if parsing fails
+                            AvgBuyPrice = decimal.TryParse(worksheet.Cells[row, 4].Text, out var avgBuyPrice) ? avgBuyPrice : 0m,
+                            BuyValue = decimal.TryParse(worksheet.Cells[row, 5].Text, out var buyValue) ? buyValue : 0m,
+                            AvgSellPrice = decimal.TryParse(worksheet.Cells[row, 6].Text, out var avgSellPrice) ? avgSellPrice : 0m,
+                            SellValue = decimal.TryParse(worksheet.Cells[row, 7].Text, out var sellValue) ? sellValue : 0m,
+                            RealisedPnL = decimal.TryParse(worksheet.Cells[row, 8].Text, out var realisedPnL) ? realisedPnL : 0m,
+                            RealisedPnLPercentage = worksheet.Cells[row, 9].Text,
+                            BuyDate = worksheet.Cells[row, 10].Text,
+                            SellDate = worksheet.Cells[row, 11].Text
+                        };
+                        stockDataList.Add(stockData);
+                    }
+                }
+            }
+
+            // Save the data to JSON file
+            await SaveToJsonFileAsync(stockDataList);
+
+            return Ok(stockDataList);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    } */
+    #endregion
+
+
+
 
 
 

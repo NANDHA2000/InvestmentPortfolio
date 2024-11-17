@@ -20,8 +20,9 @@ namespace InvestmentPortfolio.Controllers
         {
             try
             {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\UserData.json");
 
-                var jsonContent = await System.IO.File.ReadAllTextAsync(jsonFilePath);
+                var jsonContent = await System.IO.File.ReadAllTextAsync(filePath);
 
                 var users = JsonSerializer.Deserialize<List<User>>(jsonContent);
 
@@ -54,6 +55,7 @@ namespace InvestmentPortfolio.Controllers
         #endregion
 
 
+        #region Register
         [HttpPost("Register")]
         public async Task<IActionResult> Register(User user)
         {
@@ -105,7 +107,8 @@ namespace InvestmentPortfolio.Controllers
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return StatusCode(500, new { success = false, message = ex.Message });
             }
-        }
+        } 
+        #endregion
 
     }
 }
