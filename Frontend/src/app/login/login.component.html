@@ -1,0 +1,120 @@
+<div class="split-screen-container">
+    <!-- Left Side (Image) -->
+    <div class="split-screen-left">
+      <img src="assets/Images/Investment.jpg" alt="Investment Image" />
+    </div>
+  
+    <!-- Right Side (Form) -->
+    <div class="split-screen-right">
+      <div class="form-container">
+        <div class="image-overlay">
+            <h1>Welcome to login page</h1>
+            <p>Your investments at a glance. Login or register to get started.</p>
+          </div>
+
+        <!-- Tab Buttons -->
+        <ul class="nav nav-tabs mb-4 justify-content-center">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="activeTab === 'login'"
+              (click)="setActiveTab('login')"
+              >Login</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="activeTab === 'register'"
+              (click)="setActiveTab('register')"
+              >Register</a
+            >
+          </li>
+        </ul>
+  
+        <!-- Login Form -->
+        <div *ngIf="activeTab === 'login'">
+          <h2 class="form-title">Login to Your Account</h2>
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <div class="form-group mb-3">
+              <label for="loginEmail">Email Address</label>
+              <input
+                type="email"
+                id="loginEmail"
+                class="form-control"
+                formControlName="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="form-group mb-3">
+              <label for="loginPassword">Password</label>
+              <input
+                type="password"
+                id="loginPassword"
+                class="form-control"
+                formControlName="password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+        </div>
+  
+        <!-- Register Form -->
+        <div *ngIf="activeTab === 'register'">
+            <h2 class="form-title">Create an Account</h2>
+            <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+              <div class="form-group mb-3">
+                <label for="registerName">Full Name</label>
+                <input
+                  type="text"
+                  id="registerName"
+                  class="form-control"
+                  formControlName="name"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label for="registerEmail">Email Address</label>
+                <input
+                  type="email"
+                  id="registerEmail"
+                  class="form-control"
+                  formControlName="email"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label for="registerPassword">Password</label>
+                <input
+                  type="password"
+                  id="registerPassword"
+                  class="form-control"
+                  formControlName="password"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label for="confirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                  placeholder="Confirm your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-success w-100">Register</button>
+            </form>
+          </div>
+          
+      </div>
+    </div>
+  </div>
+  
