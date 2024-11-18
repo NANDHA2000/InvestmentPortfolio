@@ -23,12 +23,12 @@
     *ngIf="portfolioData.length > 0"
     class="table-responsive mt-4 custom-table"
   >
-  <div class="text-center mt-4">
+  <!-- <div class="text-center mt-4">
     <h4 style="color: green;">Total Profit: {{ totalProfit | number:'1.2-2' }}</h4>
     <h4 style="color: red">Total Loss: {{ totalLoss | number:'1.2-2' }}</h4>
-  </div>
+  </div> -->
 </div>
-    <table class="table table-bordered table-hover table-striped">
+    <table class="table table-bordered table-hover table-striped"> 
       <thead class="table-dark text-center">
         <tr>
           <th>Stock Name</th>
@@ -38,7 +38,7 @@
           <th>Buy Value</th>
           <th>Sell Price</th>
           <th>Sell Value</th>
-          <th>Realised P&L</th>
+          <th><a [routerLink]="['/dashboard']">Realised P&L</a></th>
           <th>Buy Date</th>
           <th>Sell Date</th>
         </tr>

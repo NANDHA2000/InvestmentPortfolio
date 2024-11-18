@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ChartModule } from 'primeng/chart';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   ],
   imports: [
     BrowserModule,
+    ChartModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,

@@ -24,7 +24,7 @@ public class ExcelController : ControllerBase
     public async Task<IActionResult> GetInvestmentData()
     {
 
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "StockData.json");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\StockData.json");
 
         var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
 
