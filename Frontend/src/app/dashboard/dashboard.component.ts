@@ -57,7 +57,7 @@ getpieChart(profit:number,loss:number){
       {
         data: [profit,loss],
         backgroundColor: ['green', 'red'],
-        hoverBackgroundColor: ['#8FFE09', '#FF474D'],
+        hoverBackgroundColor: ['green', 'red'],
       },
     ],
   };

@@ -12,6 +12,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChartModule } from 'primeng/chart';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -20,11 +22,13 @@ import { ChartModule } from 'primeng/chart';
     InvestmentPortfolioComponent,
     HomeComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
     ChartModule,
+    RouterModule ,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,

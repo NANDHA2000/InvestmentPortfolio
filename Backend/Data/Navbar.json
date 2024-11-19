@@ -1,0 +1,11 @@
+[
+  {
+    "Label": "Portfolio",
+    "Route": "/portfolio"
+  },
+  {
+    "Label": "Dashboard",
+    "Route": "/dashboard"
+  }
+]
+

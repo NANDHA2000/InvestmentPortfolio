@@ -1,0 +1,64 @@
+/* Sidebar styles */
+.sidebar {
+    position: fixed; /* Sticks the sidebar to the left */
+    top: 0;
+    left: 0;
+    height: 100%; /* Full height */
+    width: 250px; /* Width of the sidebar */
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background with transparency */
+    padding: 1rem;
+    z-index: 1; /* Ensure it stays above the image */
+  }
+  
+  .sidebar .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar .nav-link {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+  }
+  
+  .sidebar .nav-link:hover {
+    color: #ffcc00; /* Highlight color on hover */
+  }
+  
+  /* Image styles */
+  .full-screen-image {
+    width: 100%;
+    height: auto; /* Ensure the image maintains its aspect ratio */
+    display: block; /* Prevents extra spacing issues */
+  }
+  
+  .image-container {
+    position: relative;
+    height: 100vh; /* Ensures the container fills the viewport */
+  }
+
+  .content {
+    margin-left: 250px; /* Leave space for the sidebar */
+    padding-top: 2rem; /* Add space above the content */
+  }
+
+  .logout-container {
+    position: absolute;
+    top: 10px; /* Adjust the distance from the top */
+    right: 10px; /* Adjust the distance from the right */
+    z-index: 1000; /* Ensure it stays on top of other content */
+    color: white;
+  }
+  
+  .logout-container .btn {
+    font-size: 1rem; /* Adjust button size */
+    padding: 0.5rem 1rem; /* Adjust padding for better appearance */
+    color: white;
+  }
+
+  
+  

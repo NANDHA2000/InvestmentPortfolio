@@ -1,4 +1,5 @@
 ﻿using InvestmentPortfolio.Models;
+using InvestmentPortpolio.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -107,8 +108,23 @@ namespace InvestmentPortfolio.Controllers
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return StatusCode(500, new { success = false, message = ex.Message });
             }
-        } 
+        }
         #endregion
+
+        [HttpGet]
+        [Route("GetNavBar")]
+        public async Task<IActionResult> GetNavBar()
+        {
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\Navbar.json");
+
+            var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
+
+            var navBarData = JsonSerializer.Deserialize<List<NavBar>>(jsonData);
+
+            return Ok(navBarData);
+
+        }
 
     }
 }

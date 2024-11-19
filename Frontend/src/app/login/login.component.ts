@@ -61,7 +61,7 @@ export class LoginComponent {
             if(res.success == true){
               console.log("Login successful",res);
               this.toastr.success('Login successful!', 'Success');
-              this.router.navigate(['/portfolio']);
+              this.router.navigate(['/landingpage']);
             }
             else {
               console.log("Invalid credentials",res);

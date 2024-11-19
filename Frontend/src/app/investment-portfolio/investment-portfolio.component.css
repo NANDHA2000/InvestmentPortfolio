@@ -42,6 +42,26 @@
     color: white;               /* White text color */
     font-weight: bold;          /* Optional: make text bold */
   }
+
+
+  .action-buttons {
+    position: absolute;
+    top: 10px;  /* Adjust distance from the top */
+    right: 10px; /* Adjust distance from the right */
+    z-index: 1000;  /* Ensure the buttons are above other content */
+    display: flex;
+    gap: 10px; /* Space between buttons */
+  }
+  
+  .action-buttons .btn {
+    font-size: 1.2rem;  /* Adjust button size */
+    padding: 0.5rem 1rem;  /* Adjust padding for a better look */
+  }
+  
+  .action-buttons .btn i {
+    margin-right: 8px;  /* Space between icon and text */
+  }
+  
   
   
   
