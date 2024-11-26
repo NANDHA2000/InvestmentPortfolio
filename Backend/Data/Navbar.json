@@ -1,11 +1,15 @@
 [
   {
-    "Label": "Portfolio",
+    "Label": "Dashboard",
+    "Route": "/dashboard"
+  },
+  {
+    "Label": "Stocks",
     "Route": "/portfolio"
   },
   {
-    "Label": "Dashboard",
-    "Route": "/dashboard"
+    "Label": "MutualFund",
+    "Route": "/mutualfund"
   }
 ]
 

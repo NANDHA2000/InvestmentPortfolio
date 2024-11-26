@@ -1,0 +1,54 @@
+<h1 class="text-center mb-4">Upload Mutual Fund Excel</h1>
+  <!-- File input for Excel file -->
+  <div class="input-group mb-3">
+    <input
+      type="file"
+      class="form-control"
+      (change)="onFileSelect($event)"
+      accept=".xlsx, .xls"
+    />
+    <button
+      class="btn btn-primary"
+      (click)="onUpload()"
+      [disabled]="!selectedFile"
+    >
+      Upload
+    </button>
+  </div>
+<table class="table table-bordered table-hover table-striped"> 
+  <thead class="table-dark text-center">
+    <tr *ngFor="let data of mutualFundData.holdings; let i = index" >
+      <td *ngIf="i === 1">{{ data.SchemeName}}</td>
+      <td *ngIf="i === 1">{{ data.AMC}}</td>
+      <td *ngIf="i === 1">{{ data.Category }}</td>
+      <td *ngIf="i === 1">{{ data.SubCategory}}</td>
+      <td *ngIf="i === 1">{{ data.FolioNo}}</td>
+      <td *ngIf="i === 1">{{ data.Source}}</td>
+      <td *ngIf="i === 1">{{ data.Units}}</td>
+      <td *ngIf="i === 1">{{ data.InvestedValue}}</td>
+      <td *ngIf="i === 1">{{ data.CurrentValue}}</td>
+      <td *ngIf="i === 1">{{ data.Returns}}</td>
+      <td *ngIf="i === 1">{{ data.XIRR}}</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let data of mutualFundData.holdings; let i = index" 
+      class="text-center"
+    >
+      <td *ngIf="i > 1">{{ data.SchemeName}}</td>
+      <td *ngIf="i > 1">{{ data.AMC}}</td>
+      <td *ngIf="i > 1">{{ data.Category }}</td>
+      <td *ngIf="i > 1">{{ data.SubCategory}}</td>
+      <td *ngIf="i > 1">{{ data.FolioNo}}</td>
+      <td *ngIf="i > 1">{{ data.Source}}</td>
+      <td *ngIf="i > 1">{{ data.Units}}</td>
+      <td *ngIf="i > 1">{{ data.InvestedValue}}</td>
+      <td *ngIf="i > 1">{{ data.CurrentValue}}</td>
+      <td *ngIf="i > 1">{{ data.Returns}}</td>
+      <td *ngIf="i > 1">{{ data.XIRR}}</td>
+    </tr>
+  </tbody>
+</table>
+  
+  

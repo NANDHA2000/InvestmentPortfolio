@@ -14,6 +14,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChartModule } from 'primeng/chart';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RouterModule } from '@angular/router';
+import { MutualFundComponent } from './mutual-fund/mutual-fund.component';
+
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { RouterModule } from '@angular/router';
     HomeComponent,
     LoginComponent,
     DashboardComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    MutualFundComponent
   ],
   imports: [
     BrowserModule,

@@ -7,11 +7,13 @@ import { AuthService } from './shared/auth.service';
 import { AuthGuard } from './shared/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { MutualFundComponent } from './mutual-fund/mutual-fund.component';
 
 const routes: Routes = [
   { path: '', component:HomeComponent  },
   { path: 'home', component: HomeComponent},
   { path: 'login', component: LoginComponent },
+  { path: 'mutualfund', component: MutualFundComponent },
   { path: 'landingpage',component:LandingPageComponent},
   { path: 'dashboard', component: DashboardComponent },
   { path: 'portfolio', component: InvestmentPortfolioComponent}

@@ -1,0 +1,60 @@
+{
+  "PersonalDetails": {
+    "Name": "Nandhakumar Arumuga Nainar",
+    "MobileNumber": "9791291298",
+    "PAN": "CLFPA5930D"
+  },
+  "HoldingSummary": {
+    "TotalInvestments": "48075.69",
+    "CurrentPortfolioValue": "48896.78",
+    "ProfitLoss": "821.09",
+    "ProfitLossPercentage": "1.71%",
+    "XIRR": "5.83%"
+  },
+  "HoldingsDate": "",
+  "Holdings": [
+    {
+    },
+    {
+      "SchemeName": "Scheme Name",
+      "AMC": "AMC",
+      "Category": "Category",
+      "SubCategory": "Sub-category",
+      "FolioNo": "Folio No.",
+      "Source": "Source",
+      "Units": "Units",
+      "InvestedValue": "Invested Value",
+      "CurrentValue": "Current Value",
+      "Returns": "Returns",
+      "XIRR": "XIRR"
+    },
+    {
+    },
+    {
+      "SchemeName": "ICICI Prudential Infrastructure Direct Growth",
+      "AMC": "ICICI Prudential Mutual Fund",
+      "Category": "Equity",
+      "SubCategory": "Sectoral",
+      "FolioNo": "33047366",
+      "Source": "Groww",
+      "Units": "208.457",
+      "InvestedValue": "40075.91",
+      "CurrentValue": "41180.68",
+      "Returns": "1104.7734899999996",
+      "XIRR": "6.35%"
+    },
+    {
+      "SchemeName": "Quant Small Cap Fund Direct Plan Growth",
+      "AMC": "Quant Mutual Fund",
+      "Category": "Equity",
+      "SubCategory": "Small Cap",
+      "FolioNo": "51077106683",
+      "Source": "Groww",
+      "Units": "27.489",
+      "InvestedValue": "7999.78",
+      "CurrentValue": "7716.1",
+      "Returns": "-283.68028790000153",
+      "XIRR": "-13.27%"
+    }
+  ]
+}

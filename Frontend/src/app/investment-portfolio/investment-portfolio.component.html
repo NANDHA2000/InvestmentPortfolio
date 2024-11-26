@@ -51,7 +51,7 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let data of portfolioData || portfolioData"  
+          *ngFor="let data of portfolioData || portfolioData" 
           class="text-center"
           [ngClass]="{ 'highlight-row': data.Stockname || data.stockname === 'Stock name' }"
         >
@@ -76,3 +76,5 @@
       </tbody>
     </table>
 </div>
+
+
