@@ -12,9 +12,9 @@ namespace InvestmentPortfolio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi =false)]
     public class InvestmentController : ControllerBase
     {
-
 
         #region Get Invested Details
         [HttpGet("GetInvestedDetails")]

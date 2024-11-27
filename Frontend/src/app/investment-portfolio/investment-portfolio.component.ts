@@ -31,12 +31,7 @@ export class InvestmentPortfolioComponent {
   constructor(private http: HttpClient, private router: Router,private shared:SharedService) {}
 
   ngOnInit() {
-    //this.getInvestmentData();
-    // this.http.get<any[]>('https://localhost:5001/api/upload') 
-    // .subscribe(data => {
-    //   // Filter out empty or irrelevant rows here if needed
-    //   this.dataSource = data;
-    // });
+    this.getInvestmentData();
   }
 
   // Handle file selection event
@@ -51,7 +46,7 @@ export class InvestmentPortfolioComponent {
 
       this.http
         .post<any[]>(
-          'https://localhost:44394/upload',
+          'https://localhost:44394/api/Excel/ReadStockData',
           formData
         )
         .subscribe(
@@ -114,6 +109,7 @@ processData() {
   // }
 
   getInvestmentData() {
+    debugger
     this.http
       .get<any[]>('https://localhost:44394/api/Excel/InvestmentData')
       .subscribe(

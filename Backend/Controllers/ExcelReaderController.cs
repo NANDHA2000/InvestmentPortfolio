@@ -6,6 +6,9 @@ using System.Text.Json;
 
 namespace InvestmentPortfolio.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ExcelReaderController : ControllerBase
     {
 

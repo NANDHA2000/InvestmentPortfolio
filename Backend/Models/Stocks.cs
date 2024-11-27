@@ -2,10 +2,10 @@
 {
     public class Stocks
     {
-        public StockPersonalDetails? StockPersonalDetails { get; set; }
+        public StockPersonalDetails? PersonalDetails { get; set; }
         public ProfitAndLoss? ProfitAndLoss { get; set; }
         public Charges? Charges { get; set; }
-        public List<StockHolding>? StockHolding { get; set; }
+        public List<StockHolding>? Holdings { get; set; }
     }
 
     public class StockPersonalDetails
