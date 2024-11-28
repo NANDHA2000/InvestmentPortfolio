@@ -229,9 +229,18 @@ namespace InvestmentPortfolio.Controllers
             var holdings = new List<object>();
 
             // Adjust the starting index based on where holdings start
-            for(int i = 24; i < table.Rows.Count; i++)
+            for(int i = 25; i < table.Rows.Count; i++)
             {
                 var row = table.Rows[i];
+                // Check if the row contains valid data for stock holdings
+                if(string.IsNullOrWhiteSpace(row["Column0"]?.ToString()) ||
+                    row["Column0"]?.ToString().Contains("Disclaimer", StringComparison.OrdinalIgnoreCase) == true ||
+                    row["Column0"]?.ToString().Contains("This report is provided", StringComparison.OrdinalIgnoreCase) == true ||
+                    row["Column0"]?.ToString().Contains("Groww Invest Tech Private Limited", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    // Skip unwanted or disclaimer rows
+                    continue;
+                }
 
                 var holding = new Dictionary<string, object>();
 

@@ -1,31 +1,15 @@
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateFn,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
+import { Inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 
-export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) {
-
+export const authGuard: CanActivateFn = (route, state) => {
+  debugger;
+  const router = Inject(Router);
+  debugger;
+  const localData = localStorage.getItem('userToken');
+  if (localData != null) {
+    return true;
+  } else {
+    router.navigate('/login');
+    return false;
   }
-
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean | UrlTree {
-    const isAuthenticated = this.auth.isLoggedIn();
-    if (isAuthenticated) {
-      return true;
-    } else {
-      // Redirect to the login page if not authenticated
-      this.router.navigate(['/login']);
-      return false
-      
-    }
-  }
-}
+};

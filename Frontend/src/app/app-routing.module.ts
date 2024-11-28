@@ -3,21 +3,28 @@ import { RouterModule, Routes } from '@angular/router';
 import { InvestmentPortfolioComponent } from './investment-portfolio/investment-portfolio.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { AuthService } from './shared/auth.service';
-import { AuthGuard } from './shared/auth.guard';
+import { authGuard } from './shared/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MutualFundComponent } from './mutual-fund/mutual-fund.component';
+import { StockComponent } from './stock/stock.component';
 
 const routes: Routes = [
-  { path: '', component:HomeComponent  },
-  { path: 'home', component: HomeComponent},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'mutualfund', component: MutualFundComponent },
-  { path: 'landingpage',component:LandingPageComponent},
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'portfolio', component: InvestmentPortfolioComponent}
-
+  {
+    path: 'landingpage',
+    component: LandingPageComponent,
+    canActivate: [authGuard],
+  },
+  { path: 'mutualfund', component: MutualFundComponent,canActivate: [authGuard] },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [authGuard],
+  },
+  { path: 'stocks', component: StockComponent, canActivate: [authGuard] },
 ];
 
 @NgModule({

@@ -15,6 +15,7 @@ import { ChartModule } from 'primeng/chart';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RouterModule } from '@angular/router';
 import { MutualFundComponent } from './mutual-fund/mutual-fund.component';
+import { StockComponent } from './stock/stock.component';
 
 
 
@@ -26,7 +27,8 @@ import { MutualFundComponent } from './mutual-fund/mutual-fund.component';
     LoginComponent,
     DashboardComponent,
     LandingPageComponent,
-    MutualFundComponent
+    MutualFundComponent,
+    StockComponent
   ],
   imports: [
     BrowserModule,

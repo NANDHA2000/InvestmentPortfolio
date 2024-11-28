@@ -60,6 +60,7 @@ export class LoginComponent {
           console.log(res);
             if(res.success == true){
               console.log("Login successful",res);
+              localStorage.setItem('userToken', loginPayload.email);
               this.toastr.success('Login successful!', 'Success');
               this.router.navigate(['/landingpage']);
             }
