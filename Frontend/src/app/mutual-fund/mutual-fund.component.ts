@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MF_URL_LIST } from '../Config/mutualfund-url.config';
 
 @Component({
   selector: 'app-mutual-fund',
@@ -8,13 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MutualFundComponent implements OnInit {
   selectedFile: File | null = null;
-  mutualFundData: any = [];
+  mutualFundData: any;
 
   constructor(private http: HttpClient) {}
 
   
   ngOnInit(): void {
-
+    this.getInvestmentData();
   }
 
   onFileSelect(event: any): void {
@@ -29,7 +30,7 @@ export class MutualFundComponent implements OnInit {
 
       this.http
         .post<any[]>(
-          'https://localhost:44394/upload',
+          MF_URL_LIST.ADD_MF_DETAILS +'/?fileName=MutualFund',
           formData
         )
         .subscribe(
@@ -41,7 +42,7 @@ export class MutualFundComponent implements OnInit {
 
 getInvestmentData() {
   this.http
-    .get<any[]>('https://localhost:44394/api/Excel/InvestmentData')
+    .get<any[]>(MF_URL_LIST.GET_MF_DETAILS +'/?Investmentname=MutualFund')
     .subscribe(
       (res) => {
         console.log('Response data:', res);

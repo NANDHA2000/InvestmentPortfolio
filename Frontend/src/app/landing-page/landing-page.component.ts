@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LANDING_PAGE_URL_LIST } from '../Config/landing-page.config';
+
 
 @Component({
   selector: 'app-landing-page',
@@ -18,7 +20,7 @@ export class LandingPageComponent {
 
   getNavData() {
     this.http
-      .get<any[]>('https://localhost:44394/api/Login/GetNavBar')
+      .get<any[]>(LANDING_PAGE_URL_LIST.NAVBAR)
       .subscribe((res) => {
         console.log('Response data:', res);
         this.navLinks = res;

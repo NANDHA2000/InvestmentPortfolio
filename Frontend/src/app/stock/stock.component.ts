@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../shared/shared.service';
 import { ToastrService } from 'ngx-toastr';
+import { STOCK_URL_LIST } from '../Config/stock-url.config';
 
 @Component({
   selector: 'app-stock',
@@ -37,7 +38,7 @@ export class StockComponent {
 
       this.http
         .post<any>(
-          'https://localhost:44394/api/Investment/AddInvestmentDetails?fileName=Stocks',
+          STOCK_URL_LIST.ADD_STOCK_DETAILS +'/?fileName=Stocks',
           formData
         )
         .subscribe((res) => {
@@ -58,7 +59,7 @@ export class StockComponent {
     debugger;
     this.http
       .get<any[]>(
-        'https://localhost:44394/api/Investment/GetInvestedDetails?Investmentname=Stocks'
+        STOCK_URL_LIST.GET_STOCK_DETAILS +'/?Investmentname=Stocks'
       )
       .subscribe((res) => {
         console.log('Response data:', res);

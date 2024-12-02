@@ -143,6 +143,6 @@ processData() {
   }
 
   goBack(): void {
-    this.router.navigate(['/home']); // Adjust this to your desired previous route
+    this.router.navigate(['/landingpage']); // Adjust this to your desired previous route
   }
 }
