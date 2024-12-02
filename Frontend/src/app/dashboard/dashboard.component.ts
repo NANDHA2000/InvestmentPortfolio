@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { SharedService } from '../shared/shared.service';
+import { STOCK_URL_LIST } from '../Config/stock-url.config';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,13 +11,12 @@ import { SharedService } from '../shared/shared.service';
 export class DashboardComponent {
   chartData: any;
   chartOptions: any;
-  //portfolioData: any[] = [];
   totalProfit: number=0;
   totalLoss: number=0;
-  portfolioData : any[] = [];
-
+  portfolioData: any = {
+    holdings: []
+};
   basicData: any;
-
   basicOptions: any;
   GetData: any;
 
@@ -26,60 +26,61 @@ export class DashboardComponent {
   ngOnInit():void{
     this.getInvestmentData();
     this.getbarChart();
-    debugger
     const dataString = sessionStorage.getItem("Data")
     const data = dataString ? JSON.parse(dataString) : null;
-    console.log(data);
 
-    // if (Array.isArray(data)) {
-    //   // Check if data is in the expected format (array) before passing it
-    // // const period = this.shared.calculateHoldingPeriods(data);
-    // // console.log(period);
-     
-      
-    // } else {
-    //   console.error("Data is not in the expected format of an array.");
-    // }
-    
     
     
   }
 
-  getInvestmentData() {
-    this.http.get<any[]>('https://localhost:44394/api/Excel/InvestmentData').subscribe(
+getInvestmentData() {
+  this.http.get<any>(STOCK_URL_LIST.GET_STOCK_DETAILS + '/?Investmentname=Stocks').subscribe(
       res => {
-        console.log("Response data:", res);
-        //this.portfolioData = res; // Ensure that the response is an array
-        const values = res.map((item) => item.realisedPL);
+          if (res) {
+              this.portfolioData = { holdings: Array.isArray(res) ? res : res.holdings };
 
-          // Iterate through the data, filtering out non-numeric values
-          values.forEach((item) => {
-            const numValue = parseFloat(item);
+              // Reset totals
+              this.totalProfit = 0;
+              this.totalLoss = 0;
 
-            // Check if the value is a number and not the string 'Unrealised P&L'
-            if (!isNaN(numValue)) {
-              if (numValue >= 0) {
-                this.totalProfit += numValue; 
-              } else {
-                this.totalLoss += numValue; 
+              // Loop through holdings and calculate profit/loss
+              let stopProcessing = false;
+              for (let item of this.portfolioData.holdings) {
+                  if (item.stockName === 'Unrealised trades') {
+                      stopProcessing = true; // Stop further processing when 'Un realised' is encountered
+                      break;
+                  }
+
+                  const realisedPL = parseFloat(item.realisedPL);
+                  if (!isNaN(realisedPL)) {
+                      if (realisedPL >= 0) {
+                          this.totalProfit += realisedPL;
+                      } else {
+                          this.totalLoss += realisedPL;
+                      }
+                  }
               }
-              
-            }
-          });
-          console.log(this.totalProfit,this.totalLoss);
 
-          let OverallPL = this.totalProfit - Math.abs(this.totalLoss)
-          this.getpieChart(this.totalProfit,this.totalLoss,OverallPL)
+              // Calculate overall P&L and update chart
+              const overallPL = this.totalProfit - Math.abs(this.totalLoss);
+
+              this.getpieChart(this.totalProfit, this.totalLoss, overallPL);
+
+          } else {
+              console.error('Empty or invalid response:', res);
+          }
       },
       error => {
-        console.error("Error:", error);
+          console.error('Error fetching investment data:', error.status, error.message);
       }
-    );
+  );
 }
+
+
 
 getpieChart(profit:number,loss:number,overallpl:number){
   this.chartData = {
-    labels: ['Profit', 'Loss'],
+    labels: ['Profit', 'Loss', 'OverallPL'],
     datasets: [
       {
         data: [profit,loss,overallpl],

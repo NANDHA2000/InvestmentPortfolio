@@ -44,31 +44,28 @@ export class StockComponent {
         .subscribe((res) => {
           if (res.success == true) {
             this.toastr.success('File Uploaded successful!', 'Success');
+            this.getInvestmentData();
           } else {
             this.toastr.error(
               'Issue in Uploading!!, please try again.',
               'Error'
             );
           }
-          this.getInvestmentData();
         });
     }
   }
 
   getInvestmentData() {
-    debugger;
     this.http
       .get<any[]>(
         STOCK_URL_LIST.GET_STOCK_DETAILS +'/?Investmentname=Stocks'
       )
       .subscribe((res) => {
-        console.log('Response data:', res);
         this.portfolioData = res; // Ensure that the response is an array
-        console.log(this.portfolioData);
       });
   }
 
   goBack(): void {
-    this.router.navigate(['/home']); // Adjust this to your desired previous route
+    this.router.navigate(['/landingpage']); // Adjust this to your desired previous route
   }
 }

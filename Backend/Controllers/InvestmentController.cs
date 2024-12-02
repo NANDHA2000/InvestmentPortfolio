@@ -7,6 +7,7 @@ using System.Data;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.Arm;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InvestmentPortfolio.Controllers
 {
@@ -51,6 +52,7 @@ namespace InvestmentPortfolio.Controllers
         [HttpPost("AddInvestmentDetails")]
         public IActionResult UploadGrowwReport(IFormFile file, string fileName)
         {
+            bool IsExist = false;
             if(file == null || file.Length == 0 && fileName == null || fileName.Length == 0)
                 return BadRequest(MessageConstant.NoFileData);
 
@@ -70,10 +72,11 @@ namespace InvestmentPortfolio.Controllers
 
                 if(fileName == NamingConstant.Stocks)
                 {
+                    
                     var stockResult = ProcessGrowwStockData(dataTable);
                     var jsonData = JsonSerializer.Serialize(stockResult);
                     var jsonfilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.StocksData);
-                    System.IO.File.WriteAllTextAsync(jsonfilePath, jsonData);
+                    IsExist = System.IO.File.WriteAllTextAsync(jsonfilePath, jsonData).IsCompleted;
                 }
 
                 else if(fileName == NamingConstant.MutualFund)
@@ -81,10 +84,17 @@ namespace InvestmentPortfolio.Controllers
                     var result = ProcessGrowwReportData(dataTable); // Process the data into a structured format
                     var jsonData = JsonSerializer.Serialize(result);
                     var jsonfilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.MutualFundData);
-                    System.IO.File.WriteAllTextAsync(jsonfilePath, jsonData);
+                    IsExist = System.IO.File.WriteAllTextAsync(jsonfilePath, jsonData).IsCompleted;
                 }
 
-                return Ok(MessageConstant.FileDataAdded);
+                if(IsExist)
+                {
+                    return Ok(new { success = true, message = MessageConstant.FileDataAdded });
+                }
+                else
+                {
+                    return Ok(new { success = false, message = MessageConstant.Error });
+                }
 
             }
             catch(Exception ex)
@@ -145,7 +155,7 @@ namespace InvestmentPortfolio.Controllers
             return report;
         }
 
-        // Extract holdings details from the table
+        //Extract holdings details from the table
         private List<object> GetHoldings(DataTable table)
         {
             var holdings = new List<object>();
@@ -181,12 +191,13 @@ namespace InvestmentPortfolio.Controllers
                 if(!string.IsNullOrWhiteSpace(row["Column10"]?.ToString()))
                     holding["XIRR"] = row["Column10"]?.ToString()!;
 
-
                 holdings.Add(holding);
             }
 
             return holdings;
-        } 
+        }
+
+
         #endregion
 
 
@@ -234,9 +245,9 @@ namespace InvestmentPortfolio.Controllers
                 var row = table.Rows[i];
                 // Check if the row contains valid data for stock holdings
                 if(string.IsNullOrWhiteSpace(row["Column0"]?.ToString()) ||
-                    row["Column0"]?.ToString().Contains("Disclaimer", StringComparison.OrdinalIgnoreCase) == true ||
-                    row["Column0"]?.ToString().Contains("This report is provided", StringComparison.OrdinalIgnoreCase) == true ||
-                    row["Column0"]?.ToString().Contains("Groww Invest Tech Private Limited", StringComparison.OrdinalIgnoreCase) == true)
+                    row["Column0"]?.ToString()!.Contains("Disclaimer", StringComparison.OrdinalIgnoreCase) == true ||
+                    row["Column0"]?.ToString()!.Contains("This report is provided", StringComparison.OrdinalIgnoreCase) == true ||
+                    row["Column0"]?.ToString()!.Contains("Groww Invest Tech Private Limited", StringComparison.OrdinalIgnoreCase) == true)
                 {
                     // Skip unwanted or disclaimer rows
                     continue;

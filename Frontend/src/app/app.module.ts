@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { InvestmentPortfolioComponent } from './investment-portfolio/investment-portfolio.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -22,7 +21,6 @@ import { StockComponent } from './stock/stock.component';
 @NgModule({
   declarations: [
     AppComponent,
-    InvestmentPortfolioComponent,
     HomeComponent,
     LoginComponent,
     DashboardComponent,

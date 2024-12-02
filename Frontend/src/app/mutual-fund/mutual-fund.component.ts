@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MF_URL_LIST } from '../Config/mutualfund-url.config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mutual-fund',
@@ -11,7 +12,7 @@ export class MutualFundComponent implements OnInit {
   selectedFile: File | null = null;
   mutualFundData: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router: Router) {}
 
   
   ngOnInit(): void {
@@ -45,10 +46,11 @@ getInvestmentData() {
     .get<any[]>(MF_URL_LIST.GET_MF_DETAILS +'/?Investmentname=MutualFund')
     .subscribe(
       (res) => {
-        console.log('Response data:', res);
         this.mutualFundData = res; 
       }
     );}
   
-  
+    goBack(): void {
+      this.router.navigate(['/landingpage']); // Adjust this to your desired previous route
+    }
   }

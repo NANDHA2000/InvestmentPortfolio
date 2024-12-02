@@ -22,17 +22,12 @@ export class LandingPageComponent {
     this.http
       .get<any[]>(LANDING_PAGE_URL_LIST.NAVBAR)
       .subscribe((res) => {
-        console.log('Response data:', res);
         this.navLinks = res;
       });
   }
 
-  logout(): void {
-    // Clear token from localStorage
-    localStorage.removeItem('token');
-    console.log('User logged out successfully.');
-
-    // Redirect to Login Page
+  logout() {
+    localStorage.removeItem('userToken');
     this.router.navigate(['/login']);
   }
 }
