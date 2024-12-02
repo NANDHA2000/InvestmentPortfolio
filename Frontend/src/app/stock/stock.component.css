@@ -40,7 +40,8 @@
   .highlight-row {
     background-color: black;    /* Black background */
     color: white;               /* White text color */
-    font-weight: bold;          /* Optional: make text bold */
+    font-weight: bold;   
+    text-align: center;       /* Optional: make text bold */
   }
 
 

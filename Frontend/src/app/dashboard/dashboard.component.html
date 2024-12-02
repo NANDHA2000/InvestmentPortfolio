@@ -3,25 +3,25 @@
   <div class="chart-container">
     <p-chart
       type="doughnut"
-      [data]="chartData"
-      [options]="chartOptions"
+      [data]="chartDataRealised"
+      [options]="chartOptionsRealised"
     ></p-chart>
   </div>
 
   <!-- Top-right chart -->
   <div class="chart-container">
-    <!-- <p-chart
+    <p-chart
       type="doughnut"
-      [data]="chartData"
-      [options]="chartOptions"
-    ></p-chart> -->
+      [data]="chartDataUnRealised"
+      [options]="chartOptionsUnRealised"
+    ></p-chart>
   </div>
 
   <!-- Bottom-left (blank for future use) -->
-  <div class="chart-container">
-    <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
-  </div>
+  <!-- <div class="chart-container">
+     <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart> 
+  </div> -->
 
   <!-- Bottom-right (blank for future use) -->
-  <div class="blank-container"></div>
+  <!-- <div class="blank-container"></div> -->
 </div>

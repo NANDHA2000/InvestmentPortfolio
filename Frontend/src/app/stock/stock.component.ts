@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SharedService } from '../shared/shared.service';
 import { ToastrService } from 'ngx-toastr';
 import { STOCK_URL_LIST } from '../Config/stock-url.config';
 
@@ -10,15 +9,16 @@ import { STOCK_URL_LIST } from '../Config/stock-url.config';
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.css']
 })
+
 export class StockComponent {
   selectedFile: File | null = null;
   portfolioData: any;
   dataSource: any = [];
 
+
   constructor(
     private http: HttpClient,
     private router: Router,
-    private shared: SharedService,
     private toastr: ToastrService
   ) {}
 
@@ -64,6 +64,7 @@ export class StockComponent {
         this.portfolioData = res; // Ensure that the response is an array
       });
   }
+
 
   goBack(): void {
     this.router.navigate(['/landingpage']); // Adjust this to your desired previous route
