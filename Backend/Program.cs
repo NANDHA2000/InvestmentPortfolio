@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Set EPPlus LicenseContext
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
+builder.Services.AddHttpClient();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
