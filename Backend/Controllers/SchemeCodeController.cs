@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
-using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -60,7 +58,7 @@ namespace InvestmentPortfolio.Controllers
                         int SchemeCode = 0;
                         var schemeDatas = await FetchSchemeData1(schemeName);
 
-                        foreach(var scheme in schemeDatas) 
+                        foreach(var scheme in schemeDatas)
                         {
                             SchemeCode = scheme.SchemeCode;
                             break;
@@ -72,7 +70,7 @@ namespace InvestmentPortfolio.Controllers
                         //  var data2 = FetchSchemeData();
 
 
-                       // int data2 = 1234;
+                        // int data2 = 1234;
 
                         //var normalizedSchemeName = NormalizeString(schemeName);
                         //var matchingScheme = schemeData
@@ -86,19 +84,19 @@ namespace InvestmentPortfolio.Controllers
 
 
 
-                            var transaction = new Transaction
-                            {
-                                SchemeCode = SchemeCode,
-                                SchemeName = schemeNameFromExcel,
-                                TransactionType = worksheet.Cells[row, 2].Text.Trim(),
-                                Units = decimal.TryParse(worksheet.Cells[row, 3].Text.Trim(), out var units) ? units : 0,
-                                NAV = decimal.TryParse(worksheet.Cells[row, 4].Text.Trim(), out var nav) ? nav : 0,
-                                Amount = decimal.TryParse(worksheet.Cells[row, 5].Text.Trim(), out var amount) ? amount : 0,
-                                Date = worksheet.Cells[row, 6].Text.Trim()
-                            };
+                        var transaction = new Transaction
+                        {
+                            SchemeCode = SchemeCode,
+                            SchemeName = schemeNameFromExcel,
+                            TransactionType = worksheet.Cells[row, 2].Text.Trim(),
+                            Units = decimal.TryParse(worksheet.Cells[row, 3].Text.Trim(), out var units) ? units : 0,
+                            NAV = decimal.TryParse(worksheet.Cells[row, 4].Text.Trim(), out var nav) ? nav : 0,
+                            Amount = decimal.TryParse(worksheet.Cells[row, 5].Text.Trim(), out var amount) ? amount : 0,
+                            Date = worksheet.Cells[row, 6].Text.Trim()
+                        };
 
-                            transactions.Add(transaction);
-                       
+                        transactions.Add(transaction);
+
 
                     }
                 }
@@ -108,7 +106,7 @@ namespace InvestmentPortfolio.Controllers
         }
 
 
-        //private string NormalizeString(string input)
+/*        //private string NormalizeString(string input)
         //{
         //    if(string.IsNullOrWhiteSpace(input)) return string.Empty;
 
@@ -139,7 +137,7 @@ namespace InvestmentPortfolio.Controllers
                      .Where(word => !noiseWords.Contains(word, StringComparer.OrdinalIgnoreCase)) // Remove noise words
                      .Select(word => word.Trim()) // Trim extra spaces
             ).ToLower(); // Normalize to lowercase
-        }
+        }*/
 
 
 

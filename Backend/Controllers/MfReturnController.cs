@@ -1,20 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using static YourProject.Controllers.MutualFundController2;
 
-namespace YourProject.Controllers
+namespace InvestmentPortfolio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class MutualFundController2 : ControllerBase
     {
         private readonly HttpClient _httpClient;
@@ -269,7 +261,7 @@ namespace YourProject.Controllers
                             Date = DateTime.Parse(nav.Date).AddDays(1).ToString("dd-MM-yyyy"),
                             NAV = nav.Nav,
                             CurrentValue = currentValue,
-                            ReturnPercentage = ((currentValue - totalAmountInvested) / totalAmountInvested) * 100,
+                            ReturnPercentage = (currentValue - totalAmountInvested) / totalAmountInvested * 100,
                             DayReturn = dayReturn
                         });
 

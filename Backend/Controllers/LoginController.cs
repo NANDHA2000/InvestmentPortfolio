@@ -9,6 +9,7 @@ namespace InvestmentPortfolio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = false)]
     public class LoginController : ControllerBase
     {
 

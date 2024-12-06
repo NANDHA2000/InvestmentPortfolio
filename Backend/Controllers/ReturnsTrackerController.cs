@@ -1,128 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using OfficeOpenXml;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using static InvestmentPortfolio.Controllers.MutualFundController2;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InvestmentPortfolio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MutualFundController1 : ControllerBase
+    public class ReturnsTrackerController : ControllerBase
     {
+
 
         private readonly HttpClient _httpClient;
 
-        public MutualFundController1(HttpClient httpClient)
+        public ReturnsTrackerController(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        [HttpPost("uploadExcel")]
-        public async Task<IActionResult> UploadExcel(IFormFile file)
-        {
-            if(file == null || file.Length == 0)
-            {
-                return BadRequest("No file uploaded.");
-            }
 
-            // Process the uploaded file
-            var transactions = await ProcessExcelFile(file);
-
-            // Calculate returns based on the transactions
-            var returns = await GetReturns(transactions);
-
-            // Return the returns as JSON
-            return Ok(returns);
-        }
-
-        private async Task<List<Transaction>> ProcessExcelFile(IFormFile file)
-        {
-            var transactions = new List<Transaction>();
-
-            // Fetch all scheme data from API
-            var schemeData = await FetchSchemeData();
-
-
-            if(schemeData == null)
-            {
-                throw new Exception("Failed to fetch scheme data from the API.");
-            }
-
-            using(var stream = new MemoryStream())
-            {
-                await file.CopyToAsync(stream);
-                using(var package = new ExcelPackage(stream))
-                {
-                    var worksheet = package.Workbook.Worksheets[0]; // Assuming first worksheet
-                    var rowCount = worksheet.Dimension.End.Row;
-
-                    // Start reading from row 15 (as specified)
-                    for(int row = 15; row <= rowCount; row++)
-                    {
-                        var schemeNameFromExcel = worksheet.Cells[row, 1].Text.Trim();
-                        var schemeName = worksheet.Cells[row, 1].Text.Trim().Replace(" ", "%20");
-                        int SchemeCode = 0;
-                        var schemeDatas = await FetchSchemeData1(schemeName);
-
-                        foreach(var scheme in schemeDatas)
-                        {
-                            SchemeCode = scheme.SchemeCode;
-                            break;
-                        }
-
-
-                        var transaction = new Transaction
-                        {
-                            SchemeCode = SchemeCode,
-                            SchemeName = schemeNameFromExcel,
-                            TransactionType = worksheet.Cells[row, 2].Text.Trim(),
-                            Units = decimal.TryParse(worksheet.Cells[row, 3].Text.Trim(), out var units) ? units : 0,
-                            NAV = decimal.TryParse(worksheet.Cells[row, 4].Text.Trim(), out var nav) ? nav : 0,
-                            Amount = decimal.TryParse(worksheet.Cells[row, 5].Text.Trim(), out var amount) ? amount : 0,
-                            Date = worksheet.Cells[row, 6].Text.Trim()
-                        };
-
-                        transactions.Add(transaction);
-
-                    }
-                }
-            }
-
-            return transactions;
-        }
-
-        private async Task<List<Scheme>> FetchSchemeData()
-        {
-            using(var httpClient = new HttpClient())
-            {
-                var response = await httpClient.GetAsync("https://api.mfapi.in/mf");
-                if(response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<Scheme>>(json)!;
-                }
-                return null;
-            }
-        }
-
-        private async Task<List<Scheme>> FetchSchemeData1(string SchemeName)
-        {
-            using(var httpClient = new HttpClient())
-            {
-                var response = await httpClient.GetAsync($"https://api.mfapi.in/mf/search?q={SchemeName}");
-                if(response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<List<Scheme>>(json)!;
-                }
-                return null;
-            }
-        }
-
-        private async Task<IActionResult> GetReturns(List<Transaction> transactions)
+        [HttpPost("getReturns")]
+        public async Task<IActionResult> GetReturns(List<Transaction> transactions)
         {
             var returns = new List<object>();  // Store the returns for each transaction
             var processedSchemeCodes = new HashSet<int>();  // Set to keep track of processed SchemeCodes
@@ -226,27 +123,16 @@ namespace InvestmentPortfolio.Controllers
                 decimal previousValue = 0; // Initialize for dayReturn calculation
                 decimal dayReturn = 0;
 
-
                 foreach(var nav in filteredNavData)
                 {
                     decimal currentUnits = totalUnitsPurchased - totalUnitsRedeemed;
                     decimal currentValue = currentUnits * nav.Nav;
 
-                    //previousValue = currentValue;
-
                     dayReturn = previousValue - currentValue; // Calculate dayReturn (currentValue - previousValue)
-
-
-/*                    DateTime currentDate = DateTime.Now;
-
-                    // Calculate one day minus the current date
-                    string previousDate = currentDate.AddDays(-1).ToString("dd-MM-yyyy");*/
-
 
                     schemeReturns.Add(new
                     {
-                        //Date = DateTime.Parse(nav.Date).AddDays(1).ToString("dd-MM-yyyy"),
-                        Date = nav.Date,
+                        Date = DateTime.Parse(nav.Date).AddDays(1).ToString("dd-MM-yyyy"),
                         NAV = nav.Nav,
                         CurrentValue = currentValue,
                         ReturnPercentage = ((currentValue - totalAmountInvested) / totalAmountInvested) * 100,
@@ -255,7 +141,6 @@ namespace InvestmentPortfolio.Controllers
 
                     previousValue = currentValue; // Update previousValue for the next calculation
                 }
-
 
                 result.Add(new
                 {
@@ -285,29 +170,5 @@ namespace InvestmentPortfolio.Controllers
 
             return navList;
         }
-
-
-
-        // Supporting classes
-        public class Scheme
-        {
-            [JsonPropertyName("schemeCode")]
-            public int SchemeCode { get; set; }
-
-            [JsonPropertyName("schemeName")]
-            public string SchemeName { get; set; }
-        }
-
-        public class Transaction
-        {
-            public int SchemeCode { get; set; }
-            public string SchemeName { get; set; }
-            public string TransactionType { get; set; }
-            public decimal Units { get; set; }
-            public decimal NAV { get; set; }
-            public decimal Amount { get; set; }
-            public string Date { get; set; }
-        }
     }
 }
-
