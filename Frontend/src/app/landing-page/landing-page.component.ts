@@ -23,6 +23,8 @@ export class LandingPageComponent {
       .get<any[]>(LANDING_PAGE_URL_LIST.NAVBAR)
       .subscribe((res) => {
         this.navLinks = res;
+        console.log(this.navLinks);
+        
       });
   }
 

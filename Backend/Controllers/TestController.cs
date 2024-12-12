@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InvestmentPortfolio.Constants;
+using InvestmentPortfolio.Models;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using System.Text.Json;
@@ -13,6 +15,9 @@ namespace InvestmentPortfolio.Controllers
     public class MutualFundController1 : ControllerBase
     {
 
+        string jsonFilePath = @"D:\Publish\InvestmentPortfolio\Backend\Data\DayBydayMfPerformance.json";
+
+
         private readonly HttpClient _httpClient;
 
         public MutualFundController1(HttpClient httpClient)
@@ -20,9 +25,39 @@ namespace InvestmentPortfolio.Controllers
             _httpClient = httpClient;
         }
 
+
+        [HttpGet("GetData")]
+        public async Task<IActionResult> GetData() 
+        {
+            //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\UserData.json");
+
+            var jsonContent = await System.IO.File.ReadAllTextAsync(jsonFilePath);
+
+            var users = JsonSerializer.Deserialize<List<Transaction>>(jsonContent);
+
+            var groupedTransactions = users
+                .GroupBy(t => t.SchemeCode)
+                .Select(group => new
+                {
+                    SchemeCode = group.Key,
+                    SchemeName = group.First().SchemeName,
+                    SchemeReturns = group.Select(t => new
+                    {
+                        Date = t.Date,
+                        NAV = t.NAV,
+                        CurrentValue = t.Units * t.NAV,
+                        ReturnPercentage = ((t.Units * t.NAV) - t.Amount) / t.Amount * 100,
+                        DayReturn = t.Amount - (t.Units * t.NAV)
+                    }).ToList()
+                });
+
+            return Ok(groupedTransactions);
+        }
+
         [HttpPost("uploadExcel")]
         public async Task<IActionResult> UploadExcel(IFormFile file)
         {
+
             if(file == null || file.Length == 0)
             {
                 return BadRequest("No file uploaded.");
@@ -33,6 +68,12 @@ namespace InvestmentPortfolio.Controllers
 
             // Calculate returns based on the transactions
             var returns = await GetReturns(transactions);
+
+          // var dataArray = returns.Value.data;
+
+            var jsonData = JsonSerializer.Serialize(returns);
+
+            System.IO.File.WriteAllTextAsync(jsonFilePath, jsonData);
 
             // Return the returns as JSON
             return Ok(returns);
@@ -122,7 +163,7 @@ namespace InvestmentPortfolio.Controllers
             }
         }
 
-        private async Task<IActionResult> GetReturns(List<Transaction> transactions)
+        private async Task<List<object>> GetReturns(List<Transaction> transactions)
         {
             var returns = new List<object>();  // Store the returns for each transaction
             var processedSchemeCodes = new HashSet<int>();  // Set to keep track of processed SchemeCodes
@@ -160,12 +201,12 @@ namespace InvestmentPortfolio.Controllers
                     else
                     {
                         // Return an error if the API call fails
-                        return StatusCode((int)response.StatusCode, "Failed to fetch NAV data");
+                        throw new Exception($"Failed to fetch NAV data for SchemeCode {SchemeCode}");
                     }
                 }
             }
 
-            return Ok(returns);
+            return returns;
         }
 
 

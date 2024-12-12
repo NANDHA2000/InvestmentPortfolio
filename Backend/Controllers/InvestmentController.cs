@@ -7,6 +7,7 @@ using System.Data;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.Arm;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InvestmentPortfolio.Controllers
@@ -16,6 +17,12 @@ namespace InvestmentPortfolio.Controllers
     [ApiExplorerSettings(IgnoreApi =false)]
     public class InvestmentController : ControllerBase
     {
+        private readonly VaultController _vaultController;
+
+        public InvestmentController(VaultController vaultController)
+        {
+            _vaultController = vaultController;
+        }
 
         #region Get Invested Details
         [HttpGet("GetInvestedDetails")]
@@ -52,6 +59,10 @@ namespace InvestmentPortfolio.Controllers
         [HttpPost("AddInvestmentDetails")]
         public IActionResult UploadGrowwReport(IFormFile file, string fileName)
         {
+
+
+            //_vaultController.UploadExcelFile(file, fileName);
+
             bool IsExist = false;
             if(file == null || file.Length == 0 && fileName == null || fileName.Length == 0)
                 return BadRequest(MessageConstant.NoFileData);
@@ -283,7 +294,8 @@ namespace InvestmentPortfolio.Controllers
             }
 
             return holdings;
-        } 
+        }
         #endregion
+
     }
 }

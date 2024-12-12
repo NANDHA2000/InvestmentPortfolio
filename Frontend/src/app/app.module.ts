@@ -15,6 +15,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { RouterModule } from '@angular/router';
 import { MutualFundComponent } from './mutual-fund/mutual-fund.component';
 import { StockComponent } from './stock/stock.component';
+import { FileVaultComponent } from './shared/file-vault/file-vault.component';
 
 
 
@@ -26,7 +27,8 @@ import { StockComponent } from './stock/stock.component';
     DashboardComponent,
     LandingPageComponent,
     MutualFundComponent,
-    StockComponent
+    StockComponent,
+    FileVaultComponent
   ],
   imports: [
     BrowserModule,

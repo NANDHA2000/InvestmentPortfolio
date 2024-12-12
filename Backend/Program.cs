@@ -1,5 +1,6 @@
 
 
+using Microsoft.Extensions.FileProviders;
 using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,11 +25,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowEverything",
-        policy => policy.AllowAnyOrigin()   // Allows all origins
-                        .AllowAnyMethod()   // Allows all HTTP methods
-                        .AllowAnyHeader()); // Allows all headers
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
 });
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,9 +43,18 @@ if(app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("AllowAll");
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles")),
+    RequestPath = "/UploadedFiles"
+});
+
 
 app.UseCors("AllowEverything");
 
