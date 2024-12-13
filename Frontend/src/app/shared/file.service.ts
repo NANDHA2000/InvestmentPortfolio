@@ -29,6 +29,6 @@ export class FileService {
   }
 
   deleteFile(fileName: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/files/delete/${fileName}`);
+    return this.http.delete(`${this.baseUrl}/Vault/files/delete/${fileName}`);
   }
 }

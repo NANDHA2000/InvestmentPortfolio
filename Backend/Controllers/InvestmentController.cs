@@ -1,14 +1,10 @@
 ﻿using ExcelDataReader;
 using InvestmentPortfolio.Constants;
-using InvestmentPortfolio.Models;
-using InvestmentPortpolio.Models;
+using InvestmentPortfolio.Model.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.Arm;
 using System.Text.Json;
-using System.Text.RegularExpressions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace InvestmentPortfolio.Controllers
 {

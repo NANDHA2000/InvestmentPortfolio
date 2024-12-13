@@ -1,4 +1,4 @@
-﻿namespace InvestmentPortpolio.Models
+﻿namespace InvestmentPortfolio.Model.Models
 {
     public class StockData
     {

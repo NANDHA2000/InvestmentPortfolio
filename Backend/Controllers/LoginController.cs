@@ -1,7 +1,5 @@
-﻿using InvestmentPortfolio.Models;
-using InvestmentPortpolio.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
+﻿using InvestmentPortfolio.Model.Models;
+using InvestmentPortfolio.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -12,6 +10,12 @@ namespace InvestmentPortfolio.Controllers
     [ApiExplorerSettings(IgnoreApi = false)]
     public class LoginController : ControllerBase
     {
+        private readonly IAuthService _authService;
+
+        public LoginController(IAuthService authService)
+        {
+            _authService = authService;
+        }
 
         string jsonFilePath = @"D:\InvestmentPortpolio\Backend\Data\UserData.json";
 
@@ -22,22 +26,9 @@ namespace InvestmentPortfolio.Controllers
         {
             try
             {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\UserData.json");
+                var isValidUser = await _authService.ValidateUser(user);
 
-                var jsonContent = await System.IO.File.ReadAllTextAsync(filePath);
-
-                var users = JsonSerializer.Deserialize<List<User>>(jsonContent);
-
-                if(users == null)
-                {
-                    Console.WriteLine("No users found in the JSON file.");
-                    return Ok(new { success = false, message = "No users found in the JSON file." });
-                }
-
-                // Check if the email and password pair exists
-                var userExists = users.Exists(users => users.Email == user.Email && users.Password == user.Password);
-
-                if(userExists)
+                if(isValidUser)
                 {
                     return Ok(new { success = true, message = "Login successful" });
                 }
@@ -48,9 +39,8 @@ namespace InvestmentPortfolio.Controllers
             }
             catch(Exception ex)
             {
-
                 Console.WriteLine($"An error occurred: {ex.Message}");
-                return BadRequest(new { success = false, ex.Message });
+                return BadRequest(new { success = false, message = ex.Message });
             }
         }
 
@@ -112,6 +102,8 @@ namespace InvestmentPortfolio.Controllers
         }
         #endregion
 
+
+        #region NavBar
         [HttpGet]
         [Route("GetNavBar")]
         public async Task<IActionResult> GetNavBar()
@@ -125,7 +117,8 @@ namespace InvestmentPortfolio.Controllers
 
             return Ok(navBarData);
 
-        }
+        } 
+        #endregion
 
     }
 }

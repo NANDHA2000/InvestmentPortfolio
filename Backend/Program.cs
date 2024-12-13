@@ -1,10 +1,17 @@
 
 
+using InvestmentPortfolio.Framework.Helper;
+using InvestmentPortfolio.Service.IService;
+using InvestmentPortfolio.Service.Service;
 using Microsoft.Extensions.FileProviders;
 using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddScoped<FileHelper>();
+builder.Services.AddScoped<IVaultService, VaultService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Set EPPlus LicenseContext
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -47,14 +54,6 @@ app.UseCors("AllowAll");
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles")),
-    RequestPath = "/UploadedFiles"
-});
-
 
 app.UseCors("AllowEverything");
 

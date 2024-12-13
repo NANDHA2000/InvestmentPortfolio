@@ -22,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UploadedFiles\Stocks\" />
+    <ProjectReference Include="..\InvestmentPortfolio.Framework\InvestmentPortfolio.Framework.csproj" />
+    <ProjectReference Include="..\InvestmentPortfolio.Model\InvestmentPortfolio.Model.csproj" />
+    <ProjectReference Include="..\InvestmentPortfolio.Service\InvestmentPortfolio.Service.csproj" />
   </ItemGroup>
 
 </Project>

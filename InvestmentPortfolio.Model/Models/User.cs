@@ -1,4 +1,4 @@
-﻿namespace InvestmentPortfolio.Models
+﻿namespace InvestmentPortfolio.Model.Models
 {
     public class User
     {

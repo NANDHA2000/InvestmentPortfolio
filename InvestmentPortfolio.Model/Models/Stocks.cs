@@ -1,4 +1,4 @@
-﻿namespace InvestmentPortfolio.Models
+﻿namespace InvestmentPortfolio.Model.Models
 {
     public class Stocks
     {
@@ -19,19 +19,19 @@
     {
         public string? RealisedPL { get; set; }
         public string? UnRealisedPL { get; set; }
-    } 
-    
+    }
+
     public class Charges
     {
         public string? ExchangeTransactionCharges { get; set; }
         public string? SEBICharges { get; set; }
-        public string?  STT { get; set; }
-        public string?  StampDuty { get; set; }
-        public string?  IPFTCharges { get; set; }
-        public string?  Brokerage { get; set; }
-        public string?  DPCharges { get; set; }
-        public string?  TotalGST { get; set; }
-        public string?  Total { get; set; }
+        public string? STT { get; set; }
+        public string? StampDuty { get; set; }
+        public string? IPFTCharges { get; set; }
+        public string? Brokerage { get; set; }
+        public string? DPCharges { get; set; }
+        public string? TotalGST { get; set; }
+        public string? Total { get; set; }
 
     }
 
