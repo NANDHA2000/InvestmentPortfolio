@@ -5,6 +5,7 @@
 
 
         public static string FileDataAdded = "File Data's are added";
+        public static string InvalidFileName = "Invalid";
 
 
         public static string NoFileData = "No file uploaded.";

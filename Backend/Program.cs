@@ -1,9 +1,10 @@
 
 
 using InvestmentPortfolio.Framework.Helper;
+using InvestmentPortfolio.Repository.IRepository;
+using InvestmentPortfolio.Repository.Repository;
 using InvestmentPortfolio.Service.IService;
 using InvestmentPortfolio.Service.Service;
-using Microsoft.Extensions.FileProviders;
 using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<FileHelper>();
 builder.Services.AddScoped<IVaultService, VaultService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IInvestmentService, InvestmentService>();
+builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
 
 // Set EPPlus LicenseContext
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;

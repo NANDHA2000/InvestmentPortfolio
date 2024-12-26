@@ -7,12 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.7.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InvestmentPortfolio.Framework\InvestmentPortfolio.Framework.csproj" />
     <ProjectReference Include="..\InvestmentPortfolio.Model\InvestmentPortfolio.Model.csproj" />
+    <ProjectReference Include="..\InvestmentPortfolio.Repository\InvestmentPortfolio.Repository.csproj" />
   </ItemGroup>
 
 </Project>

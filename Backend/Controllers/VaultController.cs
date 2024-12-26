@@ -105,15 +105,18 @@ namespace InvestmentPortfolio.Controllers
         [ProducesResponseType(404)]
         public IActionResult ViewFile(string fileName)
         {
-            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles/Stocks");
-            var filePath = Path.Combine(folderPath, fileName);
 
-            if(!System.IO.File.Exists(filePath))
+            string folderPath = @"D:\Publish\InvestmentPortfolio\Backend\UploadedFiles\Stocks\Stocks_PnL_Report_3948949075_01-12-2021_26-11-2024.xlsx";
+            //string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles/Stocks");
+            //var filePath = Path.Combine(folderPath, fileName);
+
+            if(!System.IO.File.Exists(folderPath))
             {
                 return NotFound("File not found.");
             }
 
-            return new PhysicalFileResult(filePath, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            var data = new PhysicalFileResult(folderPath, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return data;
         }
 
 

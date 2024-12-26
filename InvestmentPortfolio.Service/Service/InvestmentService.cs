@@ -1,125 +1,94 @@
 ﻿using ExcelDataReader;
 using InvestmentPortfolio.Constants;
 using InvestmentPortfolio.Model.Models;
+using InvestmentPortfolio.Repository.IRepository;
 using InvestmentPortfolio.Service.IService;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Text.Json;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace InvestmentPortfolio.Controllers
+namespace InvestmentPortfolio.Service.Service
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [ApiExplorerSettings(IgnoreApi =false)]
-    public class InvestmentController : ControllerBase
+    public class InvestmentService : IInvestmentService
     {
-        private readonly IInvestmentService _investmentService;
 
-        public InvestmentController(IInvestmentService investmentService)
+        private readonly IInvestmentRepository _investmentRepository;
+
+        public InvestmentService(IInvestmentRepository investmentRepository)
         {
-            _investmentService = investmentService;
+            _investmentRepository = investmentRepository;
         }
 
-        #region Get Invested Details
-        [HttpGet("GetInvestedDetails")]
-        public async Task<IActionResult> GetInvestmentData(string investmentName)
+
+        public async Task<object> GetInvestmentDetailsAsync(string investmentName)
         {
-            var result = await _investmentService.GetInvestmentDetailsAsync(investmentName);
-
-            if(result != null)
-                return Ok(result);
-
-            return NotFound("Invalid investment name or no data found.");
-        }
-        #endregion
-
-        #region Add Investment Details
-
-
-        [HttpPost("UploadGrowwReport")]
-        public async Task<IActionResult> UploadGrowwReport(IFormFile file, string fileName)
-        {
-            try
+            if(investmentName == NamingConstant.Stocks)
             {
-                var result = await _investmentService.ProcessGrowwReportAsync(file, fileName);
-
-                if(result.success)
-                    return Ok(new { success = true, message = result.message });
-
-                return BadRequest(new { success = false, message = result.message });
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.StocksData);
+                return await _investmentRepository.GetInvestmentDataAsync<Stocks>(filePath);
             }
-            catch(Exception ex)
+            else if(investmentName == NamingConstant.MutualFund)
             {
-                return StatusCode(500, new { success = false, message = ex.Message });
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.MutualFundData);
+                return await _investmentRepository.GetInvestmentDataAsync<MutualFund>(filePath);
             }
+
+            return null; // Or handle unknown investmentName cases appropriately
         }
 
-        /*[HttpPost("AddInvestmentDetails")]
-        public IActionResult UploadGrowwReport(IFormFile file, string fileName)
-        {
 
-            bool IsExist = false;
-            if(file == null || file.Length == 0 && fileName == null || fileName.Length == 0)
-                return BadRequest(MessageConstant.NoFileData);
+        public async Task<(bool success, string message)> ProcessGrowwReportAsync(IFormFile file, string fileName)
+        {
+            if(file == null || file.Length == 0 || string.IsNullOrEmpty(fileName))
+                return (false, MessageConstant.NoFileData);
 
             try
             {
-                var filePath = Path.GetTempFileName();
+                // Save uploaded file to a temporary location
+                var tempFilePath = await _investmentRepository.SaveUploadedFileAsync(file);
 
-                // Save the file to a temporary location
-                using(var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-
-                var dataTable = ReadGrowwReport(filePath);  // Read and process the Excel file
-
-
+                // Read and process the Excel file
+                var dataTable = ReadGrowwReport(tempFilePath);
 
                 if(fileName == NamingConstant.Stocks)
                 {
-                    
                     var stockResult = ProcessGrowwStockData(dataTable);
-                    var jsonData = JsonSerializer.Serialize(stockResult);
-                    var jsonfilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.StocksData);
-                    IsExist = System.IO.File.WriteAllTextAsync(jsonfilePath, jsonData).IsCompleted;
+                    var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.StocksData);
+                    await _investmentRepository.WriteJsonDataAsync(stockResult, jsonFilePath);
                 }
-
                 else if(fileName == NamingConstant.MutualFund)
                 {
-                    var result = ProcessGrowwReportData(dataTable); // Process the data into a structured format
-                    var jsonData = JsonSerializer.Serialize(result);
-                    var jsonfilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.MutualFundData);
-                    IsExist = System.IO.File.WriteAllTextAsync(jsonfilePath, jsonData).IsCompleted;
-                }
-
-                if(IsExist)
-                {
-                    return Ok(new { success = true, message = MessageConstant.FileDataAdded });
+                    var mutualFundResult = ProcessGrowwReportData(dataTable);
+                    var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.MutualFundData);
+                    await _investmentRepository.WriteJsonDataAsync(mutualFundResult, jsonFilePath);
                 }
                 else
                 {
-                    return Ok(new { success = false, message = MessageConstant.Error });
+                    return (false, MessageConstant.InvalidFileName);
                 }
 
+                return (true, MessageConstant.FileDataAdded);
             }
             catch(Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                throw new Exception($"Error processing file: {ex.Message}");
             }
-        } */
+        }
 
-        #endregion
+
 
         #region Read Excel file
         private DataTable ReadGrowwReport(string filePath)
         {
             try
             {
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-                using var stream = System.IO.File.Open(filePath, FileMode.Open, FileAccess.Read);
+                using var stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
                 using var reader = ExcelReaderFactory.CreateReader(stream);
 
                 var result = reader.AsDataSet();
@@ -132,7 +101,7 @@ namespace InvestmentPortfolio.Controllers
             {
                 throw new Exception($"Failed to read the Excel file: {ex.Message}");
             }
-        } 
+        }
         #endregion
 
 
@@ -293,6 +262,5 @@ namespace InvestmentPortfolio.Controllers
             return holdings;
         }
         #endregion
-
     }
 }

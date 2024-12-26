@@ -10,6 +10,7 @@ namespace InvestmentPortfolio.Service.Service
     {
 
         private readonly FileHelper _fileHelper;
+        private readonly string fileName = "UserData";
 
         public AuthService(FileHelper fileHelper)
         {
@@ -20,7 +21,7 @@ namespace InvestmentPortfolio.Service.Service
         {
             try
             {
-                var filePath = _fileHelper.GetEmbeddedUserFileContent();
+                var filePath = _fileHelper.GetUserFilePath(fileName);
                 var jsonContent = await File.ReadAllTextAsync(filePath);
                 var users = JsonSerializer.Deserialize<List<User>>(jsonContent);
 
