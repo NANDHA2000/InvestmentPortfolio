@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { STOCK_URL_LIST } from '../Config/stock-url.config';
+import { URL_LIST } from '../Config/url.config';
+
 
 @Component({
   selector: 'app-stock',
@@ -38,7 +39,7 @@ export class StockComponent {
 
       this.http
         .post<any>(
-          STOCK_URL_LIST.ADD_STOCK_DETAILS +'/?fileName=Stocks',
+          URL_LIST.ADD_STOCK_DETAILS +'/?fileName=Stocks',
           formData
         )
         .subscribe((res) => {
@@ -58,7 +59,7 @@ export class StockComponent {
   getInvestmentData() {
     this.http
       .get<any[]>(
-        STOCK_URL_LIST.GET_STOCK_DETAILS +'/?Investmentname=Stocks'
+        URL_LIST.GET_STOCK_DETAILS +'/?Investmentname=Stocks'
       )
       .subscribe((res) => {
         this.portfolioData = res; // Ensure that the response is an array

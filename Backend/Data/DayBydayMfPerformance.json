@@ -4,11 +4,95 @@
       "SchemeName": "Quant Small Cap Fund Direct Plan Growth",
       "SchemeReturns": [
         {
+          "Date": "27-12-2024",
+          "NAV": 279.43970,
+          "CurrentValue": 10548.8486750,
+          "ReturnPercentage": -4.0490387938875750409314171400,
+          "DayReturn": -10548.8486750
+        },
+        {
+          "Date": "26-12-2024",
+          "NAV": 278.73680,
+          "CurrentValue": 10522.3142000,
+          "ReturnPercentage": -4.29039294160451155175550300,
+          "DayReturn": 26.5344750
+        },
+        {
+          "Date": "24-12-2024",
+          "NAV": 279.46990,
+          "CurrentValue": 10549.9887250,
+          "ReturnPercentage": -4.0386690467527742404948153500,
+          "DayReturn": -27.6745250
+        },
+        {
+          "Date": "23-12-2024",
+          "NAV": 278.59140,
+          "CurrentValue": 10516.8253500,
+          "ReturnPercentage": -4.3403188102601418955794069500,
+          "DayReturn": 33.1633750
+        },
+        {
+          "Date": "20-12-2024",
+          "NAV": 279.19820,
+          "CurrentValue": 10539.7320500,
+          "ReturnPercentage": -4.1319624340549390576678188100,
+          "DayReturn": -22.9067000
+        },
+        {
+          "Date": "19-12-2024",
+          "NAV": 283.82870,
+          "CurrentValue": 10714.5334250,
+          "ReturnPercentage": -2.5419917682372203019828997600,
+          "DayReturn": -174.8013750
+        },
+        {
+          "Date": "18-12-2024",
+          "NAV": 287.00550,
+          "CurrentValue": 10834.4576250,
+          "ReturnPercentage": -1.4511767782426778242677824300,
+          "DayReturn": -119.9242000
+        },
+        {
+          "Date": "17-12-2024",
+          "NAV": 290.22850,
+          "CurrentValue": 10956.1258750,
+          "ReturnPercentage": -0.3444981353465526650900491200,
+          "DayReturn": -121.6682500
+        },
+        {
+          "Date": "16-12-2024",
+          "NAV": 292.89290,
+          "CurrentValue": 11056.7069750,
+          "ReturnPercentage": 0.570374522466800072766963800,
+          "DayReturn": -100.5811000
+        },
+        {
+          "Date": "13-12-2024",
+          "NAV": 292.55760,
+          "CurrentValue": 11044.0494000,
+          "ReturnPercentage": 0.4552428597416772785155539400,
+          "DayReturn": 12.6575750
+        },
+        {
+          "Date": "12-12-2024",
+          "NAV": 293.02370,
+          "CurrentValue": 11061.6446750,
+          "ReturnPercentage": 0.615287202110241950154629800,
+          "DayReturn": -17.5952750
+        },
+        {
+          "Date": "11-12-2024",
+          "NAV": 296.21540,
+          "CurrentValue": 11182.1313500,
+          "ReturnPercentage": 1.7112183918501000545752228500,
+          "DayReturn": -120.4866750
+        },
+        {
           "Date": "10-12-2024",
           "NAV": 296.05220,
           "CurrentValue": 11175.9705500,
           "ReturnPercentage": 1.6551805530289248681098781200,
-          "DayReturn": -11175.9705500
+          "DayReturn": 6.1608000
         },
         {
           "Date": "09-12-2024",
@@ -781,11 +865,95 @@
       "SchemeName": "ICICI Prudential Infrastructure Direct Growth",
       "SchemeReturns": [
         {
+          "Date": "27-12-2024",
+          "NAV": 201.52000,
+          "CurrentValue": 41511.1048000,
+          "ReturnPercentage": 1.2564757537320714216021075200,
+          "DayReturn": -41511.1048000
+        },
+        {
+          "Date": "26-12-2024",
+          "NAV": 201.82000,
+          "CurrentValue": 41572.9018000,
+          "ReturnPercentage": 1.4072148502292906625036588900,
+          "DayReturn": -61.7970000
+        },
+        {
+          "Date": "24-12-2024",
+          "NAV": 201.54000,
+          "CurrentValue": 41515.2246000,
+          "ReturnPercentage": 1.2665250268318860376622109500,
+          "DayReturn": 57.6772000
+        },
+        {
+          "Date": "23-12-2024",
+          "NAV": 201.54000,
+          "CurrentValue": 41515.2246000,
+          "ReturnPercentage": 1.2665250268318860376622109500,
+          "DayReturn": 0.0000000
+        },
+        {
+          "Date": "20-12-2024",
+          "NAV": 201.04000,
+          "CurrentValue": 41412.2296000,
+          "ReturnPercentage": 1.0152931993365206361596253300,
+          "DayReturn": 102.9950000
+        },
+        {
+          "Date": "19-12-2024",
+          "NAV": 204.81000,
+          "CurrentValue": 42188.8119000,
+          "ReturnPercentage": 2.9095811786515757634891208900,
+          "DayReturn": -776.5823000
+        },
+        {
+          "Date": "18-12-2024",
+          "NAV": 206.77000,
+          "CurrentValue": 42592.5523000,
+          "ReturnPercentage": 3.8944099424334081373792565100,
+          "DayReturn": -403.7404000
+        },
+        {
+          "Date": "17-12-2024",
+          "NAV": 209.10000,
+          "CurrentValue": 43072.5090000,
+          "ReturnPercentage": 5.0651502585618109083813054900,
+          "DayReturn": -479.9567000
+        },
+        {
+          "Date": "16-12-2024",
+          "NAV": 211.16000,
+          "CurrentValue": 43496.8484000,
+          "ReturnPercentage": 6.1002253878427163625719582400,
+          "DayReturn": -424.3394000
+        },
+        {
+          "Date": "13-12-2024",
+          "NAV": 211.02000,
+          "CurrentValue": 43468.0098000,
+          "ReturnPercentage": 6.0298804761440140501512342700,
+          "DayReturn": 28.8386000
+        },
+        {
+          "Date": "12-12-2024",
+          "NAV": 210.48000,
+          "CurrentValue": 43356.7752000,
+          "ReturnPercentage": 5.758550102449019416528441800,
+          "DayReturn": 111.2346000
+        },
+        {
+          "Date": "11-12-2024",
+          "NAV": 211.97000,
+          "CurrentValue": 43663.7003000,
+          "ReturnPercentage": 6.5072209483852083130061469400,
+          "DayReturn": -306.9251000
+        },
+        {
           "Date": "10-12-2024",
           "NAV": 211.63000,
           "CurrentValue": 43593.6637000,
           "ReturnPercentage": 6.3363833056883598399843887200,
-          "DayReturn": -43593.6637000
+          "DayReturn": 70.0366000
         },
         {
           "Date": "09-12-2024",
@@ -1782,11 +1950,95 @@
       "SchemeName": "Parag Parikh Flexi Cap Fund Direct Growth",
       "SchemeReturns": [
         {
+          "Date": "27-12-2024",
+          "NAV": 87.60150,
+          "CurrentValue": 6895.9900800,
+          "ReturnPercentage": 15.048216216216216216216216220,
+          "DayReturn": -6895.9900800
+        },
+        {
+          "Date": "26-12-2024",
+          "NAV": 87.61520,
+          "CurrentValue": 6897.0685440,
+          "ReturnPercentage": 15.066208608608608608608608610,
+          "DayReturn": -1.0784640
+        },
+        {
+          "Date": "24-12-2024",
+          "NAV": 87.43920,
+          "CurrentValue": 6883.2138240,
+          "ReturnPercentage": 14.835065465465465465465465470,
+          "DayReturn": 13.8547200
+        },
+        {
+          "Date": "23-12-2024",
+          "NAV": 87.43450,
+          "CurrentValue": 6882.8438400,
+          "ReturnPercentage": 14.828892892892892892892892890,
+          "DayReturn": 0.3699840
+        },
+        {
+          "Date": "20-12-2024",
+          "NAV": 86.88240,
+          "CurrentValue": 6839.3825280,
+          "ReturnPercentage": 14.103812612612612612612612610,
+          "DayReturn": 43.4613120
+        },
+        {
+          "Date": "19-12-2024",
+          "NAV": 87.95040,
+          "CurrentValue": 6923.4554880,
+          "ReturnPercentage": 15.506431231231231231231231230,
+          "DayReturn": -84.0729600
+        },
+        {
+          "Date": "18-12-2024",
+          "NAV": 88.16240,
+          "CurrentValue": 6940.1441280,
+          "ReturnPercentage": 15.784853653653653653653653650,
+          "DayReturn": -16.6886400
+        },
+        {
+          "Date": "17-12-2024",
+          "NAV": 89.13890,
+          "CurrentValue": 7017.0142080,
+          "ReturnPercentage": 17.067304104104104104104104100,
+          "DayReturn": -76.8700800
+        },
+        {
+          "Date": "16-12-2024",
+          "NAV": 89.64410,
+          "CurrentValue": 7056.7835520,
+          "ReturnPercentage": 17.730789989989989989989989990,
+          "DayReturn": -39.7693440
+        },
+        {
+          "Date": "13-12-2024",
+          "NAV": 89.43270,
+          "CurrentValue": 7040.1421440,
+          "ReturnPercentage": 17.453155555555555555555555560,
+          "DayReturn": 16.6414080
+        },
+        {
+          "Date": "12-12-2024",
+          "NAV": 89.19920,
+          "CurrentValue": 7021.7610240,
+          "ReturnPercentage": 17.146496896896896896896896900,
+          "DayReturn": 18.3811200
+        },
+        {
+          "Date": "11-12-2024",
+          "NAV": 89.40500,
+          "CurrentValue": 7037.9616000,
+          "ReturnPercentage": 17.416776776776776776776776780,
+          "DayReturn": -16.2005760
+        },
+        {
           "Date": "10-12-2024",
           "NAV": 88.97470,
           "CurrentValue": 7004.0883840,
           "ReturnPercentage": 16.851658058058058058058058060,
-          "DayReturn": -7004.0883840
+          "DayReturn": 33.8732160
         },
         {
           "Date": "09-12-2024",

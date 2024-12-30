@@ -1,208 +1,32 @@
 ﻿using InvestmentPortfolio.Model.Models;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using InvestmentPortfolio.Service.IService;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 
-
-namespace InvestmentPortfolio.Controllers
+namespace InvestmentPortfolio.Service.Service
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MutualFundController1 : ControllerBase
+
+    public class MutualFundService:IMutualFundService
     {
-
         string jsonFilePath = @"D:\Publish\InvestmentPortfolio\Backend\Data\DayBydayMfPerformance.json";
-
-
         private readonly HttpClient _httpClient;
 
-        public MutualFundController1(HttpClient httpClient)
+
+        public MutualFundService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-
-        //[HttpGet("GetData")]
-        //public async Task<IActionResult> GetData()
-        //{
-        //    // Path to the JSON file
-        //    var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "DayBydayMfPerformance.json");
-
-        //    // Read the JSON content
-        //    if(!System.IO.File.Exists(jsonFilePath))
-        //    {
-        //        return NotFound("JSON file not found.");
-        //    }
-
-        //    var jsonContent = await System.IO.File.ReadAllTextAsync(jsonFilePath);
-
-        //    // Deserialize JSON content into a list of lists
-        //    var schemesList = JsonSerializer.Deserialize<List<List<Scheme1>>>(jsonContent);
-
-        //    if(schemesList == null || !schemesList.Any())
-        //    {
-        //        return NotFound("No data found in the JSON file.");
-        //    }
-
-        //    // Flatten the list if needed
-        //    var schemes = schemesList.SelectMany(s => s).ToList();
-
-        //    return Ok(schemes);
-        //}
-
-        [HttpGet("GetData")]
-        public async Task<IActionResult> GetData([FromQuery] string schemeName, [FromQuery] string fromDate, [FromQuery] string toDate)
-        {
-            // Path to the JSON file
-            var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "DayBydayMfPerformance.json");
-
-            // Read the JSON content
-            if(!System.IO.File.Exists(jsonFilePath))
-            {
-                return NotFound("JSON file not found.");
-            }
-
-            var jsonContent = await System.IO.File.ReadAllTextAsync(jsonFilePath);
-
-            // Deserialize JSON content into a list of lists
-            var schemesList = System.Text.Json.JsonSerializer.Deserialize<List<List<Scheme1>>>(jsonContent);
-
-            if(schemesList == null || !schemesList.Any())
-            {
-                return NotFound("No data found in the JSON file.");
-            }
-
-            // Flatten the list if needed
-            var schemes = schemesList.SelectMany(s => s).ToList();
-
-            // Filter schemes based on schemeName if provided
-            if(!string.IsNullOrEmpty(schemeName))
-            {
-                schemes = schemes.Where(s => s.SchemeName.Equals(schemeName, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-
-            if(!schemes.Any())
-            {
-                return NotFound("No matching schemes found.");
-            }
-
-            // Filter SchemeReturns based on fromDate and toDate
-            if(!string.IsNullOrEmpty(fromDate) && DateTime.TryParse(fromDate, out DateTime from))
-            {
-                schemes.ForEach(s =>
-                {
-                    s.SchemeReturns = s.SchemeReturns.Where(r => DateTime.TryParse(r.Date, out DateTime date) && date >= from).ToList();
-                });
-            }
-
-            if(!string.IsNullOrEmpty(toDate) && DateTime.TryParse(toDate, out DateTime to))
-            {
-                schemes.ForEach(s =>
-                {
-                    s.SchemeReturns = s.SchemeReturns.Where(r => DateTime.TryParse(r.Date, out DateTime date) && date <= to).ToList();
-                });
-            }
-
-            // If no SchemeReturns left after filtering, return an appropriate response
-            if(!schemes.Any(s => s.SchemeReturns.Any()))
-            {
-                return NotFound("No data found for the specified date range.");
-            }
-
-            return Ok(schemes);
-        }
-
-
-
-        [HttpPost("processFileFromJson")]
-        public async Task<IActionResult> ProcessFileFromJson(string jsonInput)
-        {
-
-            if(string.IsNullOrEmpty(jsonInput))
-            {
-                return BadRequest("Invalid JSON input.");
-            }
-
-            // Deserialize the JSON input
-            var fileDetails = JsonConvert.DeserializeObject<List<FileDetail>>(jsonInput);
-
-            if(fileDetails == null || fileDetails.Count == 0)
-            {
-                return BadRequest("No file details found in the JSON.");
-            }
-
-            var allReturns = new List<object>(); // To store returns for all files
-
-            // Loop through each file in the list
-            foreach(var fileDetail in fileDetails)
-            {
-
-                if(fileDetail.FolderName != "MutualFund") // You can change this condition to match the folder name you need
-                {
-                    continue; // Skip this file if the folder name does not match
-                }
-
-                if(!System.IO.File.Exists(fileDetail.FilePath))
-                {
-                    return NotFound($"File not found at path: {fileDetail.FilePath}");
-                }
-
-                // Read the file into a stream
-                using var fileStream = new FileStream(fileDetail.FilePath, FileMode.Open, FileAccess.Read);
-                var formFile = new FormFile(fileStream, 0, fileStream.Length, "file", fileDetail.FileName);
-
-                // Call the UploadExcel method for each file
-                var result = await UploadExcel(formFile);
-
-                if(result is OkObjectResult okResult)
-                {
-                    var returns = okResult.Value;
-                    allReturns.Add(returns); // Add the result of each file to the allReturns list
-                }
-                else
-                {
-                    return StatusCode(500, "An error occurred while processing one of the files.");
-                }
-            }
-            /*            // Pick the first file (you can modify logic to pick based on folderName, date, etc.)
-                        var fileDetail = fileDetails[0];
-                        if(!System.IO.File.Exists(fileDetail.FilePath))
-                        {
-                            return NotFound($"File not found at path: {fileDetail.FilePath}");
-                        }
-
-                        // Read the file into a stream
-                        using var fileStream = new FileStream(fileDetail.FilePath, FileMode.Open, FileAccess.Read);
-                        var formFile = new FormFile(fileStream, 0, fileStream.Length, "file", fileDetail.FileName);*/
-
-            // Call the UploadExcel method
-            //var result = await UploadExcel(formFile);
-
-            return Ok(allReturns);
-        }
-
-        public class FileDetail
-        {
-            public string FolderName { get; set; }
-            public string FileName { get; set; }
-            public string FilePath { get; set; }
-            public string StartDate { get; set; }
-            public string EndDate { get; set; }
-        }
-
-
-        [HttpPost("uploadExcel")]
-        public async Task<IActionResult> UploadExcel(IFormFile file)
+        public async Task<object> UploadExcel(IFormFile file)
         {
 
             if(file == null || file.Length == 0)
             {
-                return BadRequest("No file uploaded.");
+                return "No file uploaded.";
             }
+
 
             // Process the uploaded file
             var transactions = await ProcessExcelFile(file);
@@ -210,16 +34,19 @@ namespace InvestmentPortfolio.Controllers
             // Calculate returns based on the transactions
             var returns = await GetReturns(transactions);
 
-          // var dataArray = returns.Value.data;
+            // var dataArray = returns.Value.data;
 
             var jsonData = System.Text.Json.JsonSerializer.Serialize(returns);
 
-            System.IO.File.WriteAllTextAsync(jsonFilePath, jsonData);
+            _ = File.WriteAllTextAsync(jsonFilePath, jsonData);
 
             // Return the returns as JSON
-            return Ok(returns);
+            return returns;
         }
 
+
+
+        #region ProcessExcelFile
         private async Task<List<Transaction>> ProcessExcelFile(IFormFile file)
         {
             var transactions = new List<Transaction>();
@@ -247,7 +74,7 @@ namespace InvestmentPortfolio.Controllers
                         var schemeNameFromExcel = worksheet.Cells[row, 1].Text.Trim();
                         var schemeName = worksheet.Cells[row, 1].Text.Trim().Replace(" ", "%20");
                         int SchemeCode = 0;
-                        var schemeDatas = await FetchSchemeData1(schemeName);
+                        var schemeDatas = await FetchSchemeData(schemeName);
 
                         foreach(var scheme in schemeDatas)
                         {
@@ -274,9 +101,12 @@ namespace InvestmentPortfolio.Controllers
             }
 
             return transactions;
-        }
+        } 
+        #endregion
 
-        private async Task<List<Scheme>> FetchSchemeData()
+
+        #region FetchSchemeData
+        private async Task<List<Scheme>?> FetchSchemeData()
         {
             using(var httpClient = new HttpClient())
             {
@@ -290,7 +120,7 @@ namespace InvestmentPortfolio.Controllers
             }
         }
 
-        private async Task<List<Scheme>> FetchSchemeData1(string SchemeName)
+        private async Task<List<Scheme>> FetchSchemeData(string SchemeName)
         {
             using(var httpClient = new HttpClient())
             {
@@ -302,8 +132,11 @@ namespace InvestmentPortfolio.Controllers
                 }
                 return null;
             }
-        }
+        } 
+        #endregion
 
+
+        #region GetReturns
         private async Task<List<object>> GetReturns(List<Transaction> transactions)
         {
             var returns = new List<object>();  // Store the returns for each transaction
@@ -348,9 +181,11 @@ namespace InvestmentPortfolio.Controllers
             }
 
             return returns;
-        }
+        } 
+        #endregion
 
 
+        #region CalculateReturns
         private List<object> CalculateReturns(int SchemeCode, List<NavData> navData, List<Transaction> transactions)
         {
             var result = new List<object>();
@@ -366,7 +201,7 @@ namespace InvestmentPortfolio.Controllers
                 var schemeReturns = new List<object>();
 
                 var orderedTransactions = schemeGroup
-                .OrderBy(t => DateTime.Parse(t.Date)) // Order by Date for each group
+                .OrderBy(t => DateTime.Parse(t.Date!)) // Order by Date for each group
                 .ToList();
 
                 // Find the first purchase transaction date (start date for the scheme)
@@ -379,8 +214,8 @@ namespace InvestmentPortfolio.Controllers
 
                 // Filter NAV data to include only records after the scheme's start date
                 var filteredNavData = navData
-                    .Where(nav => DateTime.Parse(nav.Date) >= schemeStartDate)
-                    .OrderByDescending(nav => DateTime.Parse(nav.Date)) // Sort in descending order (from last to first)
+                    .Where(nav => DateTime.Parse(nav.Date!) >= schemeStartDate)
+                    .OrderByDescending(nav => DateTime.Parse(nav.Date!)) // Sort in descending order (from last to first)
                     .ToList();
 
 
@@ -419,10 +254,10 @@ namespace InvestmentPortfolio.Controllers
                     dayReturn = previousValue - currentValue; // Calculate dayReturn (currentValue - previousValue)
 
 
-/*                    DateTime currentDate = DateTime.Now;
+                    /*                    DateTime currentDate = DateTime.Now;
 
-                    // Calculate one day minus the current date
-                    string previousDate = currentDate.AddDays(-1).ToString("dd-MM-yyyy");*/
+                                        // Calculate one day minus the current date
+                                        string previousDate = currentDate.AddDays(-1).ToString("dd-MM-yyyy");*/
 
 
                     schemeReturns.Add(new
@@ -447,9 +282,11 @@ namespace InvestmentPortfolio.Controllers
             }
 
             return result;
-        }
+        } 
+        #endregion
 
 
+        #region ParseNavData
         private List<NavData> ParseNavData(string data)
         {
             var navList = new List<NavData>();
@@ -466,59 +303,7 @@ namespace InvestmentPortfolio.Controllers
             }
 
             return navList;
-        }
-
-
-
-        // Supporting classes
-        public class Scheme
-        {
-            [JsonPropertyName("schemeCode")]
-            public int SchemeCode { get; set; }
-
-            [JsonPropertyName("schemeName")]
-            public string SchemeName { get; set; }
-
-        }
-
-        public class Transaction
-        {
-            public int SchemeCode { get; set; }
-            public string SchemeName { get; set; }
-            public string TransactionType { get; set; }
-            public decimal Units { get; set; }
-            public decimal NAV { get; set; }
-            public decimal Amount { get; set; }
-            public string Date { get; set; }
-        }
-
-        public class SchemeReturn
-        {
-            [JsonPropertyName("Date")]
-            public string Date { get; set; }
-
-            [JsonPropertyName("NAV")]
-            public decimal NAV { get; set; }
-
-            [JsonPropertyName("CurrentValue")]
-            public decimal CurrentValue { get; set; }
-
-            [JsonPropertyName("ReturnPercentage")]
-            public decimal ReturnPercentage { get; set; }
-
-            [JsonPropertyName("DayReturn")]
-            public decimal DayReturn { get; set; }
-        }
-
-        public class Scheme1
-        {
-            [JsonPropertyName("SchemeName")]
-            public string SchemeName { get; set; }
-
-            [JsonPropertyName("SchemeReturns")]
-            public List<SchemeReturn> SchemeReturns { get; set; }
-        }
-
+        } 
+        #endregion
     }
 }
-

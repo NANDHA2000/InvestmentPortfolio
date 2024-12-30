@@ -16,7 +16,7 @@ namespace InvestmentPortfolio.Controllers
             _httpClient = httpClient;
         }
 
-        // Define a class to hold the response from the external API
+        //// Define a class to hold the response from the external API
         public class NavData
         {
             public string Date { get; set; }

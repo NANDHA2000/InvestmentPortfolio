@@ -1,7 +1,7 @@
-﻿/*using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using static YourProject.Controllers.MutualFundController2;
+using static InvestmentPortfolio.Controllers.MutualFundController2;
 
 namespace InvestmentPortfolio.Controllers
 {
@@ -176,4 +176,3 @@ namespace InvestmentPortfolio.Controllers
 
     }
 }
-*/

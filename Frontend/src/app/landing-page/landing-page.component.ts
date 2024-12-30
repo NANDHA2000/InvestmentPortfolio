@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LANDING_PAGE_URL_LIST } from '../Config/landing-page.config';
+import { URL_LIST } from '../Config/url.config';
+
 
 
 @Component({
@@ -20,7 +21,7 @@ export class LandingPageComponent {
 
   getNavData() {
     this.http
-      .get<any[]>(LANDING_PAGE_URL_LIST.NAVBAR)
+      .get<any[]>(URL_LIST.NAVBAR)
       .subscribe((res) => {
         this.navLinks = res;
         console.log(this.navLinks);

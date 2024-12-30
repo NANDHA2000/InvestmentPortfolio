@@ -1,5 +1,5 @@
 ﻿using ExcelDataReader;
-using InvestmentPortfolio.Constants;
+using InvestmentPortfolio.Framework.Constants;
 using InvestmentPortfolio.Model.Models;
 using InvestmentPortfolio.Repository.IRepository;
 using InvestmentPortfolio.Service.IService;
@@ -17,10 +17,12 @@ namespace InvestmentPortfolio.Service.Service
     {
 
         private readonly IInvestmentRepository _investmentRepository;
+        private readonly IVaultService _vaultService;
 
-        public InvestmentService(IInvestmentRepository investmentRepository)
+        public InvestmentService(IInvestmentRepository investmentRepository, IVaultService vaultService)
         {
             _investmentRepository = investmentRepository;
+            _vaultService = vaultService;
         }
 
 
@@ -58,13 +60,19 @@ namespace InvestmentPortfolio.Service.Service
                 {
                     var stockResult = ProcessGrowwStockData(dataTable);
                     var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.StocksData);
+                    await _vaultService.UploadExcelFile(file, fileName);
                     await _investmentRepository.WriteJsonDataAsync(stockResult, jsonFilePath);
                 }
                 else if(fileName == NamingConstant.MutualFund)
                 {
                     var mutualFundResult = ProcessGrowwReportData(dataTable);
                     var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.MutualFundData);
+                    await _vaultService.UploadExcelFile(file, fileName);
                     await _investmentRepository.WriteJsonDataAsync(mutualFundResult, jsonFilePath);
+                }
+                else if(fileName == NamingConstant.MF_DayPerformance) 
+                {
+                    await _vaultService.UploadExcelFile(file, fileName);
                 }
                 else
                 {

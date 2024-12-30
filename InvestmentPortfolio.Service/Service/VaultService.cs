@@ -71,16 +71,32 @@ namespace InvestmentPortfolio.Service.Service
         {
             try
             {
-                // Define the folder path where files are stored
-                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles/Stocks");
-                var filePath = Path.Combine(folderPath, fileName);
-                if(File.Exists(filePath))
+                string rootDirectory = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles");
+
+                // Get all files in the root directory and its subdirectories
+                var allFiles = GetFilesRecursive(rootDirectory);
+
+                // Filter files that match the requested file name
+                var matchingFiles = allFiles
+                    .Cast<dynamic>() // Cast to dynamic to access properties of anonymous types
+                    .Where(file => file.FileName.Equals(fileName, StringComparison.OrdinalIgnoreCase))
+                    .Select(file => file.FilePath) // Select the file path
+                    .Cast<string>() // Ensure the result is a List<string>
+                    .ToList();
+                foreach(var filePath in matchingFiles)
                 {
-                    // Delete the file
-                    File.Delete(filePath);
-                    return "File deleted successfully.";
+                    if(File.Exists(filePath))
+                    {
+                        // Delete the file
+                        File.Delete(filePath);
+                    }
+                    else
+                    {
+                        return "File not found.";
+                    }
                 }
-                return "File not found.";
+
+                return "File(s) deleted successfully.";
             }
             catch(Exception ex)
             {

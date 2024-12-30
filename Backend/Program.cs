@@ -1,5 +1,3 @@
-
-
 using InvestmentPortfolio.Framework.Helper;
 using InvestmentPortfolio.Repository.IRepository;
 using InvestmentPortfolio.Repository.Repository;
@@ -15,6 +13,7 @@ builder.Services.AddScoped<IVaultService, VaultService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInvestmentService, InvestmentService>();
 builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
+builder.Services.AddScoped<IMutualFundService, MutualFundService>();
 
 // Set EPPlus LicenseContext
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;

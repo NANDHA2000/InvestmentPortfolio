@@ -1,4 +1,4 @@
-﻿namespace InvestmentPortfolio.Constants
+﻿namespace InvestmentPortfolio.Framework.Constants
 {
     public class MessageConstant
     {

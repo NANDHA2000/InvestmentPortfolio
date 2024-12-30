@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LOGIN_URL_LIST } from '../Config/login-url.config';
+import { URL_LIST } from '../Config/url.config';
+
 
 @Component({
   selector: 'app-login',
@@ -56,7 +57,7 @@ export class LoginComponent {
         password: this.password
       };
       // Perform login API call here
-      this.http.post<any>(LOGIN_URL_LIST.LOGIN,loginPayload).subscribe(
+      this.http.post<any>(URL_LIST.LOGIN,loginPayload).subscribe(
         (res) => {
           console.log(res);
             if(res.success == true){
@@ -98,7 +99,7 @@ export class LoginComponent {
         password: this.password
       };
       // Perform register API call here
-      this.http.post<any>(LOGIN_URL_LIST.REGISTER,RegisterPayload).subscribe(
+      this.http.post<any>(URL_LIST.REGISTER,RegisterPayload).subscribe(
         (res) => {
           console.log(res);
           
