@@ -3,6 +3,7 @@ using InvestmentPortfolio.Service.IService;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
+using System.Net.Http.Json;
 
 
 namespace InvestmentPortfolio.Service.Service
@@ -42,6 +43,61 @@ namespace InvestmentPortfolio.Service.Service
 
             // Return the returns as JSON
             return returns;
+        }
+
+
+        public async Task<List<MutualFundAnalysis>> GetTopFundsAsync()
+        {
+            // Fetch all available schemes
+            var allSchemes = await GetAllSchemesAsync();
+            var analyzedFunds = new List<MutualFundAnalysis>();
+
+            foreach(var scheme in allSchemes)
+            {
+                var fundDetails = await GetSchemeDetailsAsync(scheme.SchemeCode);
+                if(fundDetails != null)
+                {
+                    var analysis = AnalyzeFund(fundDetails);
+                    analyzedFunds.Add(analysis);
+                }
+            }
+
+            // Sort by returns and risk level, then take top 2
+            return analyzedFunds
+                .OrderByDescending(f => f.ExpectedReturns)
+                .ThenBy(f => f.RiskLevel)
+                .Take(2)
+                .ToList();
+        }
+
+        private async Task<List<MutualFundScheme>> GetAllSchemesAsync()
+        {
+            // Fetch all schemes
+            var response = await _httpClient.GetFromJsonAsync<List<MutualFundScheme>>("https://api.mfapi.in/mf");
+            return response ?? new List<MutualFundScheme>();
+        }
+
+        private async Task<MutualFundDetails?> GetSchemeDetailsAsync(int schemeCode)
+        {
+            // Fetch details for a specific scheme
+            var response = await _httpClient.GetFromJsonAsync<MutualFundDetails>($"https://api.mfapi.in/mf/{schemeCode}");
+            return response;
+        }
+
+        private MutualFundAnalysis AnalyzeFund(MutualFundDetails fundDetails)
+        {
+            // Example logic for analysis
+            var expectedReturns = fundDetails.Returns != null && fundDetails.Returns.ContainsKey("1Y")
+                ? fundDetails.Returns["1Y"]
+                : 0;
+
+            return new MutualFundAnalysis
+            {
+                SchemeName = fundDetails.SchemeName,
+                FundType = fundDetails.FundType,
+                RiskLevel = fundDetails.Risk ?? "Unknown",
+                ExpectedReturns = expectedReturns
+            };
         }
 
 
@@ -306,4 +362,27 @@ namespace InvestmentPortfolio.Service.Service
         } 
         #endregion
     }
+}
+
+
+public class MutualFundScheme
+{
+    public int SchemeCode { get; set; }
+    public string SchemeName { get; set; }
+}
+
+public class MutualFundDetails
+{
+    public string SchemeName { get; set; }
+    public string FundType { get; set; }
+    public string Risk { get; set; }
+    public Dictionary<string, double>? Returns { get; set; } // e.g., {"1Y": 10.5, "3Y": 15.2}
+}
+
+public class MutualFundAnalysis
+{
+    public string SchemeName { get; set; }
+    public string FundType { get; set; }
+    public string RiskLevel { get; set; }
+    public double ExpectedReturns { get; set; }
 }

@@ -10,12 +10,13 @@ export const URL_LIST={
 
     //Stocks
     GET_STOCK_DETAILS:`${environment.BaseUrl}Investment/GetInvestedDetails`,
-    ADD_STOCK_DETAILS:`${environment.BaseUrl}Investment/AddInvestmentDetails`,
+    ADD_STOCK_DETAILS:`${environment.BaseUrl}Investment/UploadGrowwReport`,
 
     //Mf
     GET_MF_DETAILS:`${environment.BaseUrl}Investment/GetInvestedDetails`,
     ADD_MF_DETAILS:`${environment.BaseUrl}Investment/UploadGrowwReport`,
     GET_MF_DAYPERFORMANCE_DETAILS:`${environment.BaseUrl}MutualFund/GetData`,
+    TRIGGER_MF_DAYPERFORMANCE_DETAILS:`${environment.BaseUrl}MutualFund/DayPerformanceMF`,
     GET_SCHEME_NAMES:`${environment.BaseUrl}MutualFund/GetSchemeNames`,
 
     //Vault

@@ -25,6 +25,7 @@ export class MutualFundComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
+    this.triggerDayPerformance();
     this.getInvestmentData("MutualFund");
     this.getSchemeNames();
     
@@ -100,6 +101,15 @@ export class MutualFundComponent implements OnInit {
         
         console.log(this.schemePerformanceData);
         
+      });
+  }
+
+  triggerDayPerformance(){
+    this.http
+      .get<any[]>(`${URL_LIST.TRIGGER_MF_DAYPERFORMANCE_DETAILS}`)
+      .subscribe((res) => {
+          console.log(res);
+          
       });
   }
 

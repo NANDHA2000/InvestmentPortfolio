@@ -10,5 +10,6 @@ namespace InvestmentPortfolio.Service.IService
     public interface IMutualFundService
     {
         Task<object> UploadExcel(IFormFile file);
+        Task<List<MutualFundAnalysis>> GetTopFundsAsync();
     }
 }

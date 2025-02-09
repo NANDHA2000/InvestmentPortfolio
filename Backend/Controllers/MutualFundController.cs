@@ -159,7 +159,7 @@ namespace InvestmentPortfolio.Controllers
             return Ok(schemes);
         }
 
-        [HttpPost("DayPerformanceMF")]
+        [HttpGet("DayPerformanceMF")]
         public async Task<IActionResult> DayPerformanceMF()
         {
 
