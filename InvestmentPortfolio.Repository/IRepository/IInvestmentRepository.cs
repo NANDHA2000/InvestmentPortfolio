@@ -12,5 +12,6 @@ namespace InvestmentPortfolio.Repository.IRepository
         Task<T> GetInvestmentDataAsync<T>(string filePath);
         Task<string> SaveUploadedFileAsync(IFormFile file);
         Task<bool> WriteJsonDataAsync<T>(T data, string filePath);
+        Task SaveStockDataAsync(dynamic stockData);
     }
 }

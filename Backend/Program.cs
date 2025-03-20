@@ -15,6 +15,9 @@ builder.Services.AddScoped<IInvestmentService, InvestmentService>();
 builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
 builder.Services.AddScoped<IMutualFundService, MutualFundService>();
 
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+
 // Set EPPlus LicenseContext
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 builder.Services.AddHttpClient();

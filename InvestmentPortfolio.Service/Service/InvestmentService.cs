@@ -61,7 +61,8 @@ namespace InvestmentPortfolio.Service.Service
                     var stockResult = ProcessGrowwStockData(dataTable);
                     var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), LocationConstant.StocksData);
                     await _vaultService.UploadExcelFile(file, fileName);
-                    await _investmentRepository.WriteJsonDataAsync(stockResult, jsonFilePath);
+                    //await _investmentRepository.WriteJsonDataAsync(stockResult, jsonFilePath);
+                    await _investmentRepository.SaveStockDataAsync(stockResult);
                 }
                 else if(fileName == NamingConstant.MutualFund)
                 {

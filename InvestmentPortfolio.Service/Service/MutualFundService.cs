@@ -307,19 +307,21 @@ namespace InvestmentPortfolio.Service.Service
 
                     //previousValue = currentValue;
 
+
+
                     dayReturn = previousValue - currentValue; // Calculate dayReturn (currentValue - previousValue)
 
 
-                    /*                    DateTime currentDate = DateTime.Now;
+                    DateTime currentDate = DateTime.Now;
 
-                                        // Calculate one day minus the current date
-                                        string previousDate = currentDate.AddDays(-1).ToString("dd-MM-yyyy");*/
+                    // Calculate one day minus the current date
+                    string previousDate = currentDate.AddDays(-1).ToString("dd-MM-yyyy");
 
 
                     schemeReturns.Add(new
                     {
-                        //Date = DateTime.Parse(nav.Date).AddDays(1).ToString("dd-MM-yyyy"),
-                        Date = nav.Date,
+                        Date = DateTime.Parse(nav.Date).AddDays(1).ToString("dd-MM-yyyy"),
+                        //Date = nav.Date,
                         NAV = nav.Nav,
                         CurrentValue = currentValue,
                         ReturnPercentage = ((currentValue - totalAmountInvested) / totalAmountInvested) * 100,
