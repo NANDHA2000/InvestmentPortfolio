@@ -1,0 +1,69 @@
+<div class="container mt-5">
+  <i class="fas fa-arrow-left" (click)="goBack()"></i> Back
+
+  <h1 class="text-center mb-4">Upload Investment Portfolio Excel</h1>
+  <!-- File input for Excel file -->
+  <div class="input-group mb-3">
+    <input
+      type="file"
+      class="form-control"
+      (change)="onFileSelect($event)"
+      accept=".xlsx, .xls"
+    />
+    <button
+      class="btn btn-primary"
+      (click)="onUpload()"
+      [disabled]="!selectedFile"
+    >
+      Upload
+    </button>
+  </div>
+
+  <!-- Display the portfolio data in a table -->
+  <div class="table-responsive mt-4 custom-table">
+    <h1 class="text-center mb-4">Invested Stocks data</h1>
+  </div>
+  <table class="table table-bordered table-hover table-striped">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>Stock Name</th>
+        <th>ISIN</th>
+        <th>Quantity</th>
+        <th>Buy Price</th>
+        <th>Buy Value</th>
+        <th>Sell Price</th>
+        <th>Sell Value</th>
+        <th><a [routerLink]="['/dashboard']">Realised P&L</a></th>
+        <th>Buy Date</th>
+        <th>Sell Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let data of portfolioData.holdings"
+        class="text-center"
+        [ngClass]="{'table-dark text-center': data.stockName === 'Stock name',
+                      'highlight-row': data.stockName === 'Stock name' || data.stockName === 'Unrealised trades',
+                      }"
+      >
+        <td>{{ data.stockName }}</td>
+        <td>{{ data.isin }}</td>
+        <td>{{ data.quantity }}</td>
+        <td>{{ data.buyPrice }}</td>
+        <td>{{ data.buyValue }}</td>
+        <td>{{ data.sellPrice }}</td>
+        <td>{{ data.sellValue }}</td>
+        <td
+          [ngClass]="{
+            'text-success': data.realisedPL >= 0,
+            'text-danger': data.realisedPL < 0
+          }"
+        >
+          {{ data.realisedPL }}
+        </td>
+        <td>{{ data.buyDate }}</td>
+        <td>{{ data.sellDate }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

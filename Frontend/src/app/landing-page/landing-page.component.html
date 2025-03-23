@@ -1,0 +1,26 @@
+<div class="image-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- <a class="navbar-brand" href="#">My Investment Portfolio</a> -->
+      <ul class="nav flex-column">
+        <li class="nav-link"><b>Contents</b></li>
+        <li class="nav-item" *ngFor="let link of navLinks">
+          <a class="nav-link" [routerLink]="link.route">{{ link.label }}</a>
+        </li>
+      </ul>
+
+
+    </div>
+
+    <div class="logout-container">
+            <i class="fas fa-sign-out-alt" (click)="logout()"></i> Logout
+      </div>
+  
+    <!-- Full-screen image background -->
+    <img
+      src="assets/Images/document-paper-table.jpg"
+      alt="Investment Image"
+      class="full-screen-image"
+    />
+  </div>
+  

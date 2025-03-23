@@ -1,0 +1,106 @@
+<div class="container mt-5">
+  <i class="fas fa-arrow-left" (click)="goBack()"></i> Back
+
+
+  <h1 class="text-center mb-4">Upload Mutual Fund Excel</h1>
+  <!-- File input for Excel file -->
+  <div class="input-group mb-3">
+    <input
+      type="file"
+      class="form-control"
+      (change)="onFileSelect($event)"
+      accept=".xlsx, .xls"
+    />
+    <button
+      class="btn btn-primary"
+      (click)="onUpload()"
+      [disabled]="!selectedFile"
+    >
+      Upload
+    </button>
+  </div>
+  <table class="table table-bordered table-hover table-striped">
+    <thead class="table-dark text-center">
+      <tr *ngFor="let data of mutualFundData.holdings; let i = index">
+        <td *ngIf="i === 1">{{ data.schemeName }}</td>
+        <td *ngIf="i === 1">{{ data.amc }}</td>
+        <td *ngIf="i === 1">{{ data.category }}</td>
+        <td *ngIf="i === 1">{{ data.subCategory }}</td>
+        <td *ngIf="i === 1">{{ data.folioNo }}</td>
+        <td *ngIf="i === 1">{{ data.source }}</td>
+        <td *ngIf="i === 1">{{ data.units }}</td>
+        <td *ngIf="i === 1">{{ data.investedValue }}</td>
+        <td *ngIf="i === 1">{{ data.currentValue }}</td>
+        <td *ngIf="i === 1">{{ data.returns }}</td>
+        <td *ngIf="i === 1">{{ data.xirr }}</td>
+        <td *ngIf="i === 1">Action</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let data of mutualFundData.holdings; let i = index"
+        class="text-center"
+      >
+        <td *ngIf="i > 2">{{ data.schemeName }}</td>
+        <td *ngIf="i > 2">{{ data.amc }}</td>
+        <td *ngIf="i > 2">{{ data.category }}</td>
+        <td *ngIf="i > 2">{{ data.subCategory }}</td>
+        <td *ngIf="i > 2">{{ data.folioNo }}</td>
+        <td *ngIf="i > 2">{{ data.source }}</td>
+        <td *ngIf="i > 2">{{ data.units }}</td>
+        <td *ngIf="i > 2">{{ data.investedValue }}</td>
+        <td *ngIf="i > 2">{{ data.currentValue }}</td>
+        <td 
+        [ngClass]="{
+          'text-success': data.returns >= 0,
+          'text-danger': data.returns < 0
+        }"
+        *ngIf="i > 2">{{ data.returns }}</td>
+        <td *ngIf="i > 2">{{ data.xirr }}</td>
+        <td *ngIf="i > 2">
+          <button
+            class="btn btn-info btn-sm"
+            (click)="viewDayPerformance(data)"
+            title="Day Performance"
+          >
+            <i class="fas fa-chart-line"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h1 *ngIf="showPerformanceTable" class="text-center mb-4">Mutual Fund Scheme Performance</h1>
+
+  <!-- Table to display the mutual fund scheme performance -->
+  <table *ngIf="showPerformanceTable" class="table table-bordered table-hover table-striped">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>Scheme Name</th>
+        <th>Date</th>
+        <th>NAV</th>
+        <th>Current Value</th>
+        <th>Return Percentage</th>
+        <th>Day Return</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let scheme of schemePerformanceData">
+        <tr *ngFor="let returnData of scheme.SchemeReturns; let i = index">
+          <!-- Show Scheme Name only in the first row for each scheme -->
+          <td *ngIf="i === 0" [attr.rowspan]="scheme.SchemeReturns.length" class="align-middle">{{ scheme.SchemeName }}</td>
+          <td>{{ returnData.Date }}</td>
+          <td>{{ returnData.NAV | number: '1.2-2' }}</td>
+          <td>{{ returnData.CurrentValue | number: '1.2-2' }}</td>
+          <td>{{ returnData.ReturnPercentage | number: '1.2-2' }}%</td>
+          <td
+          [ngClass]="{
+            'text-success': returnData.DayReturn >= 0,
+            'text-danger': returnData.DayReturn < 0
+          }"
+          >{{ returnData.DayReturn | number: '1.2-2' }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

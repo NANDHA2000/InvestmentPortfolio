@@ -1,0 +1,24 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+  grid-template-rows: 1fr 1fr;   /* Two rows of equal height */
+  gap: 16px;                     /* Optional: Adds space between grid items */
+  height: 100vh;                 /* Full viewport height */
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9; /* Optional: Light background for visual separation */
+  border: 1px solid #ddd;    /* Optional: Border for separation */
+  border-radius: 8px;        /* Optional: Rounded corners */
+}
+
+.blank-container {
+  background-color: #eaeaea; /* Optional: Light gray for visual placeholder */
+  border: 1px dashed #ccc;   /* Optional: Dashed border to indicate placeholder */
+  border-radius: 8px;        /* Optional: Rounded corners */
+}

@@ -1,0 +1,44 @@
+<div class="container my-5">
+    <h2 class="text-center mb-4">Document Vault</h2>
+  
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Folder Name</th>
+            <th scope="col">File Name</th>
+            <th scope="col">Periods (Start - End)</th>
+            <th scope="col" class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of files">
+            <td>{{ file.folderName }}</td>
+            <td>{{ file.fileName }}</td>
+            <td>{{ file.startDate || 'N/A' }} - {{ file.endDate || 'N/A' }}</td>
+            <td class="text-center">
+              <button class="btn btn-success btn-sm me-2" (click)="viewFile(file.filePath)"  title="View File" [disabled]="!file.canView">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn btn-primary btn-sm me-2" (click)="downloadFile(file.fileName)" title="Download File">
+                <i class="fas fa-download"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="deleteFile(file.fileName)" title="Delete File">
+                <i class="fas fa-trash-alt"></i> 
+              </button>
+              <!-- <a href="#" class="text-success me-3" (click)="viewFile(file.filePath)" title="View">
+                <i class="fas fa-eye"></i>
+              </a>
+              <a href="#" class="text-primary me-3" (click)="downloadFile(file.fileName)" title="Download">
+                <i class="fas fa-download"></i>
+              </a>
+              <a href="#" class="text-danger" (click)="deleteFile(file.fileName)" title="Delete">
+                <i class="fas fa-trash-alt"></i>
+              </a> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

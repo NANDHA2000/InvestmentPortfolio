@@ -1,0 +1,33 @@
+<div class="grid-container">
+  <!-- Top-left chart -->
+  <div class="chart-container">
+    <p-chart
+      type="doughnut"
+      [data]="chartDataRealised"
+      [options]="chartOptionsRealised"
+    ></p-chart>
+  </div>
+
+  <!-- Top-right chart -->
+  <div class="chart-container">
+    <p-chart
+      type="doughnut"
+      [data]="chartDataUnRealised"
+      [options]="chartOptionsUnRealised"
+    ></p-chart>
+  </div>
+
+  <!-- Bottom-left (blank for future use) -->
+<!-- Line chart for Date vs Day Return -->
+
+<!-- <div class="chart-container">
+  <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+</div> -->
+
+
+  <!-- Bottom-right (blank for future use) -->
+  <!-- <div class="blank-container"></div> -->
+</div>
+
+
+<p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>

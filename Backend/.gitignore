@@ -1,0 +1,76 @@
+## .NET Core ##
+
+# User-specific files
+.idea/
+.vscode/
+.vs/
+
+# User-specific files for Visual Studio for Mac
+.vscode/
+
+# Windows Installer files
+Thumbs.db
+ehthumbs.db
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# .NET Core build output
+/bin/
+obj/
+
+# ASP.NET Scaffolding
+Scaffolding/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# .NET Core tool files
+.dotnet/
+
+## Angular ##
+# Angular build output
+/dist/
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+package-lock.json
+
+# IDE settings
+/.idea/
+/.vscode/
+
+# npm packages
+node_modules/
+
+# Angular specific
+.angular/
+
+# TypeScript compiled files
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# .env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
