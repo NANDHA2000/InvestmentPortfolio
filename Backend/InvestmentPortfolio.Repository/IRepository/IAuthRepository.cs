@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InvestmentPortfolio.Service.IService
+namespace InvestmentPortfolio.Repository.IRepository
 {
-    public interface IAuthService
+    public interface IAuthRepository
     {
-
-        Task<bool> ValidateUser(string email, string password);
         Task<bool> RegisterUser(User user);
+        Task<bool> ValidateUser(string email, string password);
     }
 }

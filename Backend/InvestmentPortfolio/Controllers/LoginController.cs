@@ -17,11 +17,34 @@ namespace InvestmentPortfolio.Controllers
             _authService = authService;
         }
 
-        string jsonFilePath = @"D:\InvestmentPortpolio\Backend\Data\UserData.json";
+        //string jsonFilePath = @"D:\InvestmentPortpolio\Backend\Data\UserData.json";
 
         #region Login
 
         [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] User user)
+        {
+            try
+            {
+                bool isValidUser = await _authService.ValidateUser(user.Email, user.Password);
+
+                if(isValidUser)
+                {
+                    return Ok(new { success = true, message = "Login successful" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Invalid email or password" });
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return StatusCode(500, new { success = false, message = "An error occurred while logging in." });
+            }
+        }
+
+        /*[HttpPost("Login")]
         public async Task<IActionResult> Login(User user)
         {
             try
@@ -42,13 +65,35 @@ namespace InvestmentPortfolio.Controllers
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return BadRequest(new { success = false, message = ex.Message });
             }
-        }
+        }*/
 
         #endregion
 
 
         #region Register
+
         [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] User user)
+        {
+            try
+            {
+                bool isRegistered = await _authService.RegisterUser(user);
+
+                if(!isRegistered)
+                {
+                    return BadRequest(new { success = false, message = "Email already exists. Please use a different email." });
+                }
+
+                return Ok(new { success = true, message = "User registered successfully." });
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return StatusCode(500, new { success = false, message = "An error occurred while registering the user." });
+            }
+        }
+
+        /*[HttpPost("Register")]
         public async Task<IActionResult> Register(User user)
         {
             try
@@ -99,25 +144,25 @@ namespace InvestmentPortfolio.Controllers
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 return StatusCode(500, new { success = false, message = ex.Message });
             }
-        }
+        }*/
         #endregion
 
 
         #region NavBar
-        [HttpGet]
-        [Route("GetNavBar")]
-        public async Task<IActionResult> GetNavBar()
-        {
+        //[HttpGet]
+        //[Route("GetNavBar")]
+        //public async Task<IActionResult> GetNavBar()
+        //{
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\Navbar.json");
+        //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\Navbar.json");
 
-            var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
+        //    var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
 
-            var navBarData = JsonSerializer.Deserialize<List<NavBar>>(jsonData);
+        //    var navBarData = JsonSerializer.Deserialize<List<NavBar>>(jsonData);
 
-            return Ok(navBarData);
+        //    return Ok(navBarData);
 
-        } 
+        //} 
         #endregion
 
     }

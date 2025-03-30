@@ -21,7 +21,33 @@ namespace InvestmentPortfolio.Controllers
         }
 
         #region Get Invested Details
+
         [HttpGet("GetInvestedDetails")]
+        public async Task<IActionResult> GetInvestmentData(int investmentTypeId)
+        {
+            var result = await _investmentService.GetInvestmentDetailsAsync(investmentTypeId);
+
+            if(string.IsNullOrWhiteSpace(result))
+            {
+                return NotFound("Invalid investment type or no data found.");
+            }
+
+            // Log the raw JSON for debugging
+            Console.WriteLine("Raw JSON Output: " + result);
+
+            try
+            {
+                // Parse and return the JSON
+                var jsonObject = JsonDocument.Parse(result).RootElement;
+                return Ok(jsonObject);
+            }
+            catch(JsonException ex)
+            {
+                return StatusCode(500, $"Error parsing JSON: {ex.Message}. Raw Output: {result}");
+            }
+        }
+
+        /*[HttpGet("GetInvestedDetails")]
         public async Task<IActionResult> GetInvestmentData(string investmentName)
         {
             var result = await _investmentService.GetInvestmentDetailsAsync(investmentName);
@@ -30,7 +56,7 @@ namespace InvestmentPortfolio.Controllers
                 return Ok(result);
 
             return NotFound("Invalid investment name or no data found.");
-        }
+        }*/
         #endregion
 
         #region Add Investment Details

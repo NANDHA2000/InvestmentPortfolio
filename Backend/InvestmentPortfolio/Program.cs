@@ -12,8 +12,11 @@ builder.Services.AddScoped<FileHelper>();
 builder.Services.AddScoped<IVaultService, VaultService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IInvestmentService, InvestmentService>();
-builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
 builder.Services.AddScoped<IMutualFundService, MutualFundService>();
+
+builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 

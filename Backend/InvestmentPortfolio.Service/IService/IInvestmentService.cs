@@ -11,6 +11,7 @@ namespace InvestmentPortfolio.Service.IService
     {
 
         Task<object> GetInvestmentDetailsAsync(string investmentName);
+        Task<string> GetInvestmentDetailsAsync(int investmentTypeId);
         Task<(bool success, string message)> ProcessGrowwReportAsync(IFormFile file, string fileName);
     }
 }

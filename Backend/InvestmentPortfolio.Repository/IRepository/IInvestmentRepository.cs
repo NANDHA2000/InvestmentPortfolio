@@ -10,6 +10,7 @@ namespace InvestmentPortfolio.Repository.IRepository
     public interface IInvestmentRepository
     {
         Task<T> GetInvestmentDataAsync<T>(string filePath);
+        Task<string> GetInvestmentDetailsAsync(int investmentTypeId);
         Task<string> SaveUploadedFileAsync(IFormFile file);
         Task<bool> WriteJsonDataAsync<T>(T data, string filePath);
         Task SaveStockDataAsync(dynamic stockData);

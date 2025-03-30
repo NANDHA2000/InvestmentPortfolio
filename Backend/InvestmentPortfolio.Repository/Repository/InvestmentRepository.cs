@@ -274,5 +274,20 @@ namespace InvestmentPortfolio.Repository.Repository
         }
 
 
+        public async Task<string> GetInvestmentDetailsAsync(int investmentTypeId)
+        {
+            using var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            await connection.OpenAsync();
+
+            // Execute the stored procedure
+            var data = await connection.QueryFirstOrDefaultAsync<string>(
+               "sp_GetInvestmentDetails",
+               new { InvestmentTypeId = investmentTypeId },
+               commandType: CommandType.StoredProcedure
+           );
+
+            return data;
+        }
+
     }
 }

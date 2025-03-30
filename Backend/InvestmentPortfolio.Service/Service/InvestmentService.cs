@@ -89,6 +89,12 @@ namespace InvestmentPortfolio.Service.Service
             }
         }
 
+        public async Task<string> GetInvestmentDetailsAsync(int investmentTypeId)
+        {
+            // Call the repository to get investment details
+            return await _investmentRepository.GetInvestmentDetailsAsync(investmentTypeId);
+        }
+
 
 
         #region Read Excel file

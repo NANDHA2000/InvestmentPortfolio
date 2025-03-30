@@ -1,5 +1,6 @@
 ﻿using InvestmentPortfolio.Framework.Helper;
 using InvestmentPortfolio.Model.Models;
+using InvestmentPortfolio.Repository.IRepository;
 using InvestmentPortfolio.Service.IService;
 using System.Text.Json;
 
@@ -8,16 +9,29 @@ namespace InvestmentPortfolio.Service.Service
 {
     public class AuthService : IAuthService
     {
-
+        private readonly IAuthRepository _authRepository;
         private readonly FileHelper _fileHelper;
         private readonly string fileName = "UserData";
 
-        public AuthService(FileHelper fileHelper)
+        public AuthService(FileHelper fileHelper, IAuthRepository authRepository)
         {
             _fileHelper = fileHelper;
+            _authRepository = authRepository;
+
         }
 
-        public async Task<bool> ValidateUser(User user)
+        public async Task<bool> ValidateUser(string email, string password)
+        {
+            return await _authRepository.ValidateUser(email, password);
+        }
+
+
+        public async Task<bool> RegisterUser(User user)
+        {
+            return await _authRepository.RegisterUser(user);
+        }
+
+        /*public async Task<bool> ValidateUser(User user)
         {
             try
             {
@@ -39,6 +53,6 @@ namespace InvestmentPortfolio.Service.Service
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 throw;
             }
-        }
+        }*/
     }
 }
