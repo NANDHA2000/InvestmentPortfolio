@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE sp_DeleteFile
+    @Id INT
+AS
+BEGIN
+    DELETE FROM Files WHERE FileId = @Id;
+END;

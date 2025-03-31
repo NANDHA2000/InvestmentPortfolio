@@ -6,6 +6,8 @@
     [PanNumber]         BIGINT         NULL,
     [PLStatement]       NVARCHAR (255) NULL,
     [IsActive]          BIT            DEFAULT ((1)) NULL,
-    PRIMARY KEY CLUSTERED ([PersonalDetailsId] ASC)
+    [InvestmentTypeId]  INT            NULL,
+    PRIMARY KEY CLUSTERED ([PersonalDetailsId] ASC),
+    CONSTRAINT [FK_PersonalDetails_InvestmentType] FOREIGN KEY ([InvestmentTypeId]) REFERENCES [dbo].[InvestmentType] ([InvestmentTypeId])
 );
 
