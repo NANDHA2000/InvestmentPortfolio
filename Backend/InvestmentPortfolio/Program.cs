@@ -16,6 +16,7 @@ builder.Services.AddScoped<IMutualFundService, MutualFundService>();
 
 builder.Services.AddScoped<IInvestmentRepository, InvestmentRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IVaultRepository, VaultRepository>();
 
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
@@ -28,6 +29,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 /*builder.Services.AddCors(options =>
 {
@@ -51,6 +53,8 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+
+app.UseDeveloperExceptionPage();
 
 // Configure the HTTP request pipeline.
 if(app.Environment.IsDevelopment())

@@ -74,7 +74,7 @@ namespace InvestmentPortfolio.Service.Service
                 }
                 else if(fileName == NamingConstant.MF_DayPerformance) 
                 {
-                    await _vaultService.UploadExcelFile(file, fileName);
+                    //await _vaultService.UploadExcelFile(file, fileName);
                 }
                 else
                 {

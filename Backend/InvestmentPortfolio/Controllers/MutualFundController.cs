@@ -163,12 +163,13 @@ namespace InvestmentPortfolio.Controllers
         public async Task<IActionResult> DayPerformanceMF()
         {
 
-            var responseData = _vaultService.GetAllFiles();
+            var responseData = string.IsNullOrEmpty;
+                //_vaultService.GetAllFiles();
 
-            if(responseData == null || !responseData.Any())
+/*            if(responseData == null || !responseData.Any())
             {
                 return BadRequest("Invalid JSON input.");
-            }
+            }*/
 
             string StrResult = System.Text.Json.JsonSerializer.Serialize(responseData);
 

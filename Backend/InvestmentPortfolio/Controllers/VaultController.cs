@@ -17,9 +17,70 @@ namespace InvestmentPortfolio.Controllers
             _vaultService = vaultService;
         }
 
-
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadExcelFile(IFormFile file,string fileName)
+        public async Task<IActionResult> UploadFile(IFormFile file,string fileName)
+        {
+            if(file == null || file.Length == 0)
+            {
+                return BadRequest("Please upload a valid file.");
+            }
+
+            var filePath = _vaultService.UploadFileAsync(file, fileName);
+
+            return Ok(new { Message = "File uploaded successfully", FilePath = filePath });
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllFiles()
+        {
+            var result = await _vaultService.GetAllFilesAsync();
+            return Ok(result);
+        }
+
+
+
+        [HttpGet("download/{fileId}")]
+        public async Task<IActionResult> DownloadFile(int fileId)
+        {
+            var fileData = await _vaultService.DownloadFileAsync(fileId);
+
+            if(fileData == null || fileData.FileContent == null)
+            {
+                return NotFound("File not found.");
+            }
+
+            Response.Headers.Add("Content-Disposition", $"attachment; filename=\"{fileData.FileName}\"");
+            Response.Headers.Add("Content-Type", fileData.FileType);
+
+            return File(fileData.FileContent, fileData.FileType);
+        }
+
+
+        [HttpGet("view/{fileId}")]
+        public async Task<IActionResult> ViewFile(int fileId)
+        {
+            var (fileContent, fileType) = await _vaultService.ViewFileAsync(fileId);
+
+            if(fileContent.Length == 0)
+                return NotFound("File not found.");
+
+            // Convert to Base64 for UI preview
+            var base64String = Convert.ToBase64String(fileContent);
+            return Ok(new { fileData = base64String, fileType });
+        }
+
+
+
+        [HttpDelete("delete/{fileId}")]
+        public async Task<IActionResult> DeleteFile(int fileId)
+        {
+            var result = await _vaultService.DeleteFileAsync(fileId);
+            return Ok(result);
+        }
+
+        #region OldCode
+        /*[HttpPost("upload")]
+        public async Task<IActionResult> UploadExcelFile(IFormFile file, string fileName)
         {
             if(file == null || file.Length == 0)
             {
@@ -82,7 +143,7 @@ namespace InvestmentPortfolio.Controllers
 
 
 
-        /* [HttpGet("files/view/{fileName}")]
+        *//* [HttpGet("files/view/{fileName}")]
          public IActionResult ViewFile(string fileName)
          {
              // Define the folder path where files are stored
@@ -96,7 +157,7 @@ namespace InvestmentPortfolio.Controllers
 
              // Returning the file path to be opened in the browser
              return new PhysicalFileResult(filePath, "application/octet-stream");
-         }*/
+         }*//*
 
 
         [HttpGet("files/view/{fileName}")]
@@ -117,7 +178,9 @@ namespace InvestmentPortfolio.Controllers
 
             var data = new PhysicalFileResult(folderPath, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return data;
-        }
+        } 
+*/
+        #endregion
 
 
 

@@ -149,20 +149,20 @@ namespace InvestmentPortfolio.Controllers
 
 
         #region NavBar
-        //[HttpGet]
-        //[Route("GetNavBar")]
-        //public async Task<IActionResult> GetNavBar()
-        //{
+        [HttpGet]
+        [Route("GetNavBar")]
+        public async Task<IActionResult> GetNavBar()
+        {
 
-        //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\Navbar.json");
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Data\\Navbar.json");
 
-        //    var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
+            var jsonData = await System.IO.File.ReadAllTextAsync(filePath);
 
-        //    var navBarData = JsonSerializer.Deserialize<List<NavBar>>(jsonData);
+            var navBarData = JsonSerializer.Deserialize<List<NavBar>>(jsonData);
 
-        //    return Ok(navBarData);
+            return Ok(navBarData);
 
-        //} 
+        }
         #endregion
 
     }
