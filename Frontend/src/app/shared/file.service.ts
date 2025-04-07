@@ -14,24 +14,21 @@ export class FileService {
     return this.http.get<any[]>(`${URL_LIST.GET_FILES}`);
   }
 
-  viewFile(fileName: string) {
+  viewFile(fileId: number) {
     // Assuming the backend URL is configured correctly
-    const filePath = `${URL_LIST.VIEW_FILE}/${fileName}`;
+    const filePath = `${URL_LIST.VIEW_FILE}/${fileId}`;
     window.location.href = filePath; // This will open the file in the same tab
   }
   
+  downloadFile(fileId: number): Observable<Blob> {
+    return this.http.get(`${URL_LIST.DOWNLOAD_FILE}/${fileId}`, {
+      responseType: 'blob' // Important: Treat response as binary data
+    });
+  }
   
 
-  downloadFile(fileName: string) {
-    return this.http.get(`${URL_LIST.DOWNLOAD_FILE}/${fileName}`, {
-      responseType: 'blob',
-    });
-
-    
-  }
-
-  deleteFile(fileName: string): Observable<any> {
-    return this.http.delete(`${URL_LIST.DELETE_FILE}/${fileName}`);
+  deleteFile(fileId: string): Observable<any> {
+    return this.http.delete(`${URL_LIST.DELETE_FILE}/${fileId}`);
   }
 }
 

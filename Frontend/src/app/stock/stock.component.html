@@ -40,29 +40,29 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="let data of portfolioData.holdings"
+        *ngFor="let data of portfolioData?.StockHoldings"
         class="text-center"
-        [ngClass]="{'table-dark text-center': data.stockName === 'Stock name',
-                      'highlight-row': data.stockName === 'Stock name' || data.stockName === 'Unrealised trades',
+        [ngClass]="{'table-dark text-center': data.StockName === 'Stock name',
+                      'highlight-row': data.StockName === 'Stock name' || data.StockName === 'Unrealised trades',
                       }"
       >
-        <td>{{ data.stockName }}</td>
-        <td>{{ data.isin }}</td>
-        <td>{{ data.quantity }}</td>
-        <td>{{ data.buyPrice }}</td>
-        <td>{{ data.buyValue }}</td>
-        <td>{{ data.sellPrice }}</td>
-        <td>{{ data.sellValue }}</td>
+        <td>{{ data.StockName }}</td>
+        <td>{{ data.ISIN }}</td>
+        <td>{{ data.Quantity }}</td>
+        <td>{{ data.BuyPrice }}</td>
+        <td>{{ data.BuyValue }}</td>
+        <td>{{ data.SellPrice }}</td>
+        <td>{{ data.SellValue }}</td>
         <td
           [ngClass]="{
-            'text-success': data.realisedPL >= 0,
-            'text-danger': data.realisedPL < 0
+            'text-success': data.RealisedPL >= 0,
+            'text-danger': data.RealisedPL < 0
           }"
         >
-          {{ data.realisedPL }}
+          {{ data.RealisedPL }}
         </td>
-        <td>{{ data.buyDate }}</td>
-        <td>{{ data.sellDate }}</td>
+        <td>{{ data.BuyDate }}</td>
+        <td>{{ data.SellDate }}</td>
       </tr>
     </tbody>
   </table>

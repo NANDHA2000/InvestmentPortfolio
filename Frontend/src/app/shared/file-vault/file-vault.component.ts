@@ -30,19 +30,26 @@ export class FileVaultComponent implements OnInit {
     });
   }
 
-  viewFile(filePath: string) {
-    this.fileService.viewFile(filePath);
+  viewFile(fileId: any) {
+    this.fileService.viewFile(fileId);
   }
 
-  downloadFile(fileName: string): void {
-    this.fileService.downloadFile(fileName).subscribe({
-      next: (response) => {
-        const blob = new Blob([response], { type: 'application/octet-stream' });
+
+  downloadFile(fileId: any): void {
+    this.fileService.downloadFile(fileId).subscribe({
+      next: (blob) => {
+        // ✅ Create a URL from the blob
         const url = window.URL.createObjectURL(blob);
+        
+        // ✅ Create a temporary <a> element to trigger the download
         const a = document.createElement('a');
         a.href = url;
-        a.download = fileName;
+        a.download = `file_${fileId}`; // Adjust to actual filename if needed
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
+        
+        // ✅ Revoke the object URL after download
         window.URL.revokeObjectURL(url);
       },
       error: (error) => {
@@ -50,11 +57,11 @@ export class FileVaultComponent implements OnInit {
       },
     });
   }
-
-
-  deleteFile(fileName: string) {
-    if (confirm(`Are you sure you want to delete ${fileName}?`)) {
-      this.fileService.deleteFile(fileName).subscribe({
+  
+  
+  deleteFile(fileId: any) {
+    if (confirm(`Are you sure you want to delete ${fileId}?`)) {
+      this.fileService.deleteFile(fileId).subscribe({
         next: () => {
           alert('File deleted successfully.');
           this.loadFiles(); // Refresh the list

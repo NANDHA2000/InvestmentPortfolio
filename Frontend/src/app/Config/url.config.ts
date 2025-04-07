@@ -20,7 +20,7 @@ export const URL_LIST={
     GET_SCHEME_NAMES:`${environment.BaseUrl}MutualFund/GetSchemeNames`,
 
     //Vault
-    GET_FILES:`${environment.BaseUrl}Vault/files`,
+    GET_FILES:`${environment.BaseUrl}Vault/all`,
     VIEW_FILE:`${environment.BaseUrl}files/view`,
     DOWNLOAD_FILE:`${environment.BaseUrl}Vault/download`,
     DELETE_FILE:`${environment.BaseUrl}Vault/files/delete`

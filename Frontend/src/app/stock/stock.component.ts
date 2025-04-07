@@ -13,7 +13,7 @@ import { URL_LIST } from '../Config/url.config';
 
 export class StockComponent {
   selectedFile: File | null = null;
-  portfolioData: any;
+  portfolioData: any = { StockHoldings: [] };
   dataSource: any = [];
 
 
@@ -56,15 +56,32 @@ export class StockComponent {
     }
   }
 
+  // getInvestmentData() {
+  //   this.http
+  //     .get<any[]>(
+  //       URL_LIST.GET_STOCK_DETAILS +'/?Investmentname=Stocks'
+  //     )
+  //     .subscribe((res) => {
+  //       this.portfolioData = res; // Ensure that the response is an array
+  //       console.log(this.portfolioData);
+  //     });
+  // }
+
   getInvestmentData() {
     this.http
-      .get<any[]>(
-        URL_LIST.GET_STOCK_DETAILS +'/?Investmentname=Stocks'
+      .get<any>(
+        URL_LIST.GET_STOCK_DETAILS + '/?investmentTypeId=1'
       )
       .subscribe((res) => {
-        this.portfolioData = res; // Ensure that the response is an array
+        // Ensure correct mapping of nested StockHoldings
+        this.portfolioData = {
+          StockHoldings: res?.StockHoldings || []
+        };
+        console.log(this.portfolioData);
+        
       });
   }
+  
 
 
   goBack(): void {
